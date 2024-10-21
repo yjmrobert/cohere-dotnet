@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cohere", "Cohere\Cohere.csproj", "{070EFB6A-93C6-4D0A-A086-632DC6F32D44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cohere.Tests", "Cohere.Tests\Cohere.Tests.csproj", "{6B3744E0-1030-4C1A-B8CA-7CF1BF46211C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cohere.IntegrationTests", "Cohere.IntegrationTests\Cohere.IntegrationTests.csproj", "{263C51EC-EF0C-4BDD-83BA-96AB220ED8B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cohere.SampleApp", "Cohere.SampleApp\Cohere.SampleApp.csproj", "{BF201ADA-D639-4DC5-A688-85A26BBF29F5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{070EFB6A-93C6-4D0A-A086-632DC6F32D44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{070EFB6A-93C6-4D0A-A086-632DC6F32D44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{070EFB6A-93C6-4D0A-A086-632DC6F32D44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{070EFB6A-93C6-4D0A-A086-632DC6F32D44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B3744E0-1030-4C1A-B8CA-7CF1BF46211C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B3744E0-1030-4C1A-B8CA-7CF1BF46211C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B3744E0-1030-4C1A-B8CA-7CF1BF46211C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B3744E0-1030-4C1A-B8CA-7CF1BF46211C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{263C51EC-EF0C-4BDD-83BA-96AB220ED8B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{263C51EC-EF0C-4BDD-83BA-96AB220ED8B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{263C51EC-EF0C-4BDD-83BA-96AB220ED8B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{263C51EC-EF0C-4BDD-83BA-96AB220ED8B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF201ADA-D639-4DC5-A688-85A26BBF29F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF201ADA-D639-4DC5-A688-85A26BBF29F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF201ADA-D639-4DC5-A688-85A26BBF29F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF201ADA-D639-4DC5-A688-85A26BBF29F5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
