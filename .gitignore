@@ -1,0 +1,64 @@
+# Ignore build outputs and intermediate files
+bin/
+obj/
+out/
+
+# User-specific files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.userprefs
+
+# Rider specific
+.idea/
+.idea_modules/
+.idea/*
+
+# Visual Studio specific
+.vscode/
+.vs/
+.vscode/*
+
+# Auto-generated files by Rider/Resharper
+*_ReSharper.*
+*.sln.docstates
+resharper.xml
+resharper_external_annotations.xml
+
+# Other
+*.cache
+*.log
+*.vspscc
+*.pdb
+*.ilk
+*.hbp
+
+# Temporary files
+*.tmp
+*.temp
+
+# Rider workspace
+/workspace.xml
+
+# Package dependency directories
+**/packages/
+**/node_modules/
+**/bower_components/
+
+# SDK-style project
+**/project.lock.json
+**/project.fragment.lock.json
+
+# ASP.NET specific
+appsettings.Development.json
+appsettings.Local.json
+
+# Logs
+*.log
+
+# Other build tool output
+*.nupkg
+*.lock.json
+*.swp
+*.swo
