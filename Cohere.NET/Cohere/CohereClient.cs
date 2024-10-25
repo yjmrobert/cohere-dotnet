@@ -1,4 +1,4 @@
-﻿using Cohere.Models;
+﻿using Cohere.Types;
 using Polly;
 using Polly.Extensions.Http;
 using System.Net.Http.Headers;

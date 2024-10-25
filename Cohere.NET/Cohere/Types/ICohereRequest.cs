@@ -1,4 +1,4 @@
-namespace Cohere.Models;
+namespace Cohere.Types;
 
 public interface ICohereRequest
 {
