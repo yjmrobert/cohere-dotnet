@@ -20,7 +20,7 @@ public class Classification
     /// <summary>
     /// A map containing each label and its confidence score according to the classifier
     /// </summary>
-    public required Dictionary<string, object> Labels { get; set; }
+    public required Dictionary<string, ClassificationLabelConfidence> Labels { get; set; }
 
     /// <summary>
     /// The type of classification performed

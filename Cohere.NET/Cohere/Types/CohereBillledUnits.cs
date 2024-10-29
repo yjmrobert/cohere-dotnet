@@ -23,7 +23,7 @@ public class CohereBillledUnits
     public double? SearchUnits { get; set; }
 
     /// <summary>
-    /// The number of billed classification units
+    /// The number of billed classifications
     /// </summary>
-    public double? ClassificationUnits { get; set; }
+    public double? Classifications { get; set; }
 }

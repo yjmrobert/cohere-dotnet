@@ -14,45 +14,45 @@ public class CohereClient
     private readonly string _apiKey;
     private readonly int _retryCount = 3;
     private readonly JsonSerializerOptions _jsonSerializerOptions = new()
-{
-    PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
-    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-    Converters = { new JsonStringEnumConverter() }
-};
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        Converters = { new JsonStringEnumConverter() }
+    };
 
-    // <summary>
-    // Initalizes a new instance of the CohereClient class
-    // </summary>
-    // <param name="apiKey"> The API key to use for requests </param>
+    /// <summary>
+    /// Initalizes a new instance of the CohereClient class
+    /// </summary>
+    /// <param name="apiKey"> The API key to use for requests </param>
     public CohereClient(string apiKey)
     {
         _apiKey = apiKey;
         _httpClient = new HttpClient
         {
-            BaseAddress = new Uri("https://api.cohere.ai")
+            BaseAddress = new Uri("https:///api.cohere.ai")
         };
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
 
     }
 
-    // <summary>
-    // Initalizes a new instance of the CohereClient class with a custom HttpClient (e.g a mock)
-    // </summary>
-    // <param name="apiKey"> The API key to use for requests </param>
-    // <param name="httpClient"> The custom HttpClient to use for requests </param>
+    /// <summary>
+    /// Initalizes a new instance of the CohereClient class with a custom HttpClient (e.g a mock)
+    /// </summary>
+    /// <param name="apiKey"> The API key to use for requests </param>
+    /// <param name="httpClient"> The custom HttpClient to use for requests </param>
     public CohereClient(string apiKey, HttpClient httpClient)
     {
         _apiKey = apiKey;
         _httpClient = httpClient;
-        _httpClient.BaseAddress ??= new Uri("https://api.cohere.ai");
+        _httpClient.BaseAddress ??= new Uri("https:///api.cohere.ai");
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
     }
 
-    // <summary>
-    // Sends a request to the Cohere API to generate text based on messages provided
-    // </summary>
-    // <param name="chatRequest"> The request body sent to Cohere to generate text </param>
-    // <returns> The response from Cohere as a ChatResponse object </returns>
+    /// <summary>
+    /// Sends a request to the Cohere API to generate text based on messages provided
+    /// </summary>
+    /// <param name="chatRequest"> The request body sent to Cohere to generate text </param>
+    /// <returns> The response from Cohere as a ChatResponse object </returns>
     public async Task<ChatResponse> ChatAsync(ChatRequest chatRequest)
     {
         var response = await SendRequestAsync("chat", chatRequest);
@@ -60,11 +60,11 @@ public class CohereClient
         return (ChatResponse) response;
     }
 
-    // <summary>
-    // Sends a request to the Cohere API to classify text
-    // </summary>
-    // <param name="classifyRequest"> The request body sent to Cohere to classify </param>
-    // <returns> The response from Cohere as a ClassifyResponse object </returns>
+    /// <summary>
+    /// Sends a request to the Cohere API to classify text
+    /// </summary>
+    /// <param name="classifyRequest"> The request body sent to Cohere to classify </param>
+    /// <returns> The response from Cohere as a ClassifyResponse object </returns>
     public async Task<ClassifyResponse> ClassifyAsync(ClassifyRequest classifyRequest)
     {
         var response = await SendRequestAsync("classify", classifyRequest);
@@ -72,11 +72,11 @@ public class CohereClient
         return (ClassifyResponse) response;
     }
 
-    // <summary>
-    // Sends a request to the Cohere API to rerank text
-    // </summary>
-    // <param name="rerankRequest"> The request body sent to Cohere to rerank </param>
-    // <returns> The response from Cohere as a RerankResponse object </returns>
+    /// <summary>
+    /// Sends a request to the Cohere API to rerank text
+    /// </summary>
+    /// <param name="rerankRequest"> The request body sent to Cohere to rerank </param>
+    /// <returns> The response from Cohere as a RerankResponse object </returns>
     public async Task<RerankResponse> RerankAsync(RerankRequest rerankRequest)
     {
         var response = await SendRequestAsync("rerank", rerankRequest);
@@ -84,12 +84,12 @@ public class CohereClient
         return (RerankResponse) response;
     }
 
-    // <summary>
-    // Private method to send a request to the Cohere API
-    // </summary>
-    // <param name="endpoint"> The endpoint to send the request to </param>
-    // <param name="requestBody"> The request body to send to the API </param>
-    // <returns> The response from the API as an ICohereResponse object </returns> 
+    /// <summary>
+    /// Private method to send a request to the Cohere API
+    /// </summary>
+    /// <param name="endpoint"> The endpoint to send the request to </param>
+    /// <param name="requestBody"> The request body to send to the API </param>
+    /// <returns> The response from the API as an ICohereResponse object </returns> 
     private async Task<ICohereResponse> SendRequestAsync(string endpoint, ICohereRequest requestBody)
     {
         var response = await GetRetryPolicy().ExecuteAsync(async () => {
@@ -120,21 +120,21 @@ public class CohereClient
         return result;
     }
 
-    // <summary>
-    // Private generic method to deserialize the response from the Cohere API
-    // </summary>
-    // <param name="responseContent"> The content of the response from the API </param>
-    // <returns> The deserialized response as a generic type </returns>
+    /// <summary>
+    /// Private generic method to deserialize the response from the Cohere API
+    /// </summary>
+    /// <param name="responseContent"> The content of the response from the API </param>
+    /// <returns> The deserialized response as a generic type </returns>
     private T DeserializeResponse<T>(string responseContent) where T : ICohereResponse
     {
         return JsonSerializer.Deserialize<T>(responseContent, _jsonSerializerOptions)
             ?? throw new InvalidOperationException("Failed to deserialize the response from Cohere.");
     }
 
-    // <summary>
-    // Private method to get the retry policy for the HttpClient
-    // </summary>
-    // <returns> The retry policy for the HttpClient </returns>
+    /// <summary>
+    /// Private method to get the retry policy for the HttpClient
+    /// </summary>
+    /// <returns> The retry policy for the HttpClient </returns>
     private AsyncPolicy<HttpResponseMessage> GetRetryPolicy()
     {
         return HttpPolicyExtensions
@@ -142,5 +142,13 @@ public class CohereClient
             .OrResult(msg =>
                 msg.StatusCode is System.Net.HttpStatusCode.NotFound)
             .WaitAndRetryAsync(_retryCount, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+    }
+
+    /// <summary>
+    /// Disposes of the HttpClient when the CohereClient is disposed
+    /// </summary>
+    public void Dispose()
+    {
+        _httpClient.Dispose();
     }
 }

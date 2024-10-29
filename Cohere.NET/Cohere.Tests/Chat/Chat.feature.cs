@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Cohere.Tests
+namespace Cohere.Tests.Chat
 {
     using Reqnroll;
     using System;
@@ -19,7 +19,7 @@ namespace Cohere.Tests
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class CohereAPIClientFeature : object, Xunit.IClassFixture<CohereAPIClientFeature.FixtureData>, Xunit.IAsyncLifetime
+    public partial class ChatFeature : object, Xunit.IClassFixture<ChatFeature.FixtureData>, Xunit.IAsyncLifetime
     {
         
         private static global::Reqnroll.ITestRunner testRunner;
@@ -28,10 +28,10 @@ namespace Cohere.Tests
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "Cohere.feature"
+#line 1 "Chat.feature"
 #line hidden
         
-        public CohereAPIClientFeature(CohereAPIClientFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public ChatFeature(ChatFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
         }
@@ -39,8 +39,8 @@ namespace Cohere.Tests
         public static async System.Threading.Tasks.Task FeatureSetupAsync()
         {
             testRunner = global::Reqnroll.TestRunnerManager.GetTestRunnerForAssembly(null, global::Reqnroll.xUnit.ReqnrollPlugin.XUnitParallelWorkerTracker.Instance.GetWorkerId());
-            global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "", "Cohere API Client", "  As a developer\r\n  I want to use the CohereClient class to interact with the Coh" +
-                    "ere API\r\n  So that I can generate, classify, and rerank text data", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
+            global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Chat", "Chat", "  As a developer\r\n  I want to use the CohereClient class to interact with the Coh" +
+                    "ere API Chat endpoint", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
             await testRunner.OnFeatureStartAsync(featureInfo);
         }
         
@@ -79,12 +79,12 @@ namespace Cohere.Tests
         
         public virtual async System.Threading.Tasks.Task FeatureBackgroundAsync()
         {
-#line 7
+#line 6
   #line hidden
-#line 8
+#line 7
     await testRunner.GivenAsync("I have a valid API key", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 9
+#line 8
     await testRunner.AndAsync("I have instantiated the Cohere client", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
         }
@@ -100,14 +100,14 @@ namespace Cohere.Tests
         }
         
         [Xunit.SkippableFactAttribute(DisplayName="Chat with Cohere")]
-        [Xunit.TraitAttribute("FeatureTitle", "Cohere API Client")]
+        [Xunit.TraitAttribute("FeatureTitle", "Chat")]
         [Xunit.TraitAttribute("Description", "Chat with Cohere")]
         public async System.Threading.Tasks.Task ChatWithCohere()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Chat with Cohere", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 11
+#line 10
   this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -117,76 +117,14 @@ namespace Cohere.Tests
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 12
+#line 11
     await testRunner.WhenAsync("I send a valid chat request", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 13
+#line 12
     await testRunner.ThenAsync("I should receive a valid chat response", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [Xunit.SkippableFactAttribute(DisplayName="Classify text with Cohere")]
-        [Xunit.TraitAttribute("FeatureTitle", "Cohere API Client")]
-        [Xunit.TraitAttribute("Description", "Classify text with Cohere")]
-        public async System.Threading.Tasks.Task ClassifyTextWithCohere()
-        {
-            string[] tagsOfScenario = ((string[])(null));
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Classify text with Cohere", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 15
-  this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 7
-  await this.FeatureBackgroundAsync();
-#line hidden
-#line 16
-    await testRunner.WhenAsync("I send a valid classify request", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 17
-    await testRunner.ThenAsync("I should receive a valid classification response", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [Xunit.SkippableFactAttribute(DisplayName="Rerank text with Cohere")]
-        [Xunit.TraitAttribute("FeatureTitle", "Cohere API Client")]
-        [Xunit.TraitAttribute("Description", "Rerank text with Cohere")]
-        public async System.Threading.Tasks.Task RerankTextWithCohere()
-        {
-            string[] tagsOfScenario = ((string[])(null));
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Rerank text with Cohere", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 19
-  this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 7
-  await this.FeatureBackgroundAsync();
-#line hidden
-#line 20
-    await testRunner.WhenAsync("I send a valid rerank request", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 21
-    await testRunner.ThenAsync("I should receive a valid rerank response", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -199,12 +137,12 @@ namespace Cohere.Tests
             
             async System.Threading.Tasks.Task Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await CohereAPIClientFeature.FeatureSetupAsync();
+                await ChatFeature.FeatureSetupAsync();
             }
             
             async System.Threading.Tasks.Task Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await CohereAPIClientFeature.FeatureTearDownAsync();
+                await ChatFeature.FeatureTearDownAsync();
             }
         }
     }
