@@ -1,3 +1,6 @@
+using System.Text.Json.Serialization;
+using Cohere.CustomDeserializeConverters;
+
 namespace Cohere.Types;
 
 public class ChatMessage
@@ -11,6 +14,7 @@ public class ChatMessage
     /// <summary>
     /// The content of the message
     /// </summary>
+    [JsonConverter(typeof(ChatMessageContentConverter))]
     public object? Content { get; set; }
 
     /// <summary>

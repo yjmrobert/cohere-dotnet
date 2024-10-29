@@ -4,6 +4,7 @@ using Polly.Extensions.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Cohere;
 
@@ -13,10 +14,11 @@ public class CohereClient
     private readonly string _apiKey;
     private readonly int _retryCount = 3;
     private readonly JsonSerializerOptions _jsonSerializerOptions = new()
-    {
-        PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
-        DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
-    };
+{
+    PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
+    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+    Converters = { new JsonStringEnumConverter() }
+};
 
     // <summary>
     // Initalizes a new instance of the CohereClient class
@@ -31,6 +33,19 @@ public class CohereClient
         };
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
 
+    }
+
+    // <summary>
+    // Initalizes a new instance of the CohereClient class with a custom HttpClient (e.g a mock)
+    // </summary>
+    // <param name="apiKey"> The API key to use for requests </param>
+    // <param name="httpClient"> The custom HttpClient to use for requests </param>
+    public CohereClient(string apiKey, HttpClient httpClient)
+    {
+        _apiKey = apiKey;
+        _httpClient = httpClient;
+        _httpClient.BaseAddress ??= new Uri("https://api.cohere.ai");
+        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
     }
 
     // <summary>

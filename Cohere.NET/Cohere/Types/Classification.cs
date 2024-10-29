@@ -26,7 +26,7 @@ public class Classification
     /// The type of classification performed
     /// Allwed values are single-label and multi-label
     /// </summary>
-    public required string ClassficationType { get; set; }
+    public required string ClassificationType { get; set; }
 
     /// <summary>
     /// The input text that was classified
