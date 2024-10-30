@@ -1,5 +1,8 @@
 namespace Cohere.Types;
 
+/// <summary>
+/// The result of a reranking operation
+/// </summary>
 public class RerankResult
 {
     /// <summary>

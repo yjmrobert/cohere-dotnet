@@ -1,5 +1,8 @@
 namespace Cohere.Types;
 
+/// <summary>
+/// Summary of usage for a chat request and response
+/// </summary>
 public class ChatUsage
 {
     /// <summary>

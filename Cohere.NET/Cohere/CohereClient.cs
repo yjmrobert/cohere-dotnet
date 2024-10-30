@@ -8,6 +8,9 @@ using System.Text.Json.Serialization;
 
 namespace Cohere;
 
+/// <summary>
+/// The CohereClient class to interact with the Cohere API
+/// </summary>
 public class CohereClient
 {
     private readonly HttpClient _httpClient;

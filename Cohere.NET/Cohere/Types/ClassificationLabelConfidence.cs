@@ -1,5 +1,8 @@
 namespace Cohere.Types;
 
+/// <summary>
+/// The object used to display the confidence of a classification label
+/// </summary>
 public class ClassificationLabelConfidence
 {
     /// <summary>

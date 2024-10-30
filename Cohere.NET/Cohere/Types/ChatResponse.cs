@@ -1,5 +1,8 @@
 namespace Cohere.Types;         
 
+/// <summary>
+/// The object received for the response of a chat request
+/// </summary>
 public class ChatResponse: ICohereResponse
 {
     // Visit https://docs.cohere.com/reference/chat#response for more information on the output fields

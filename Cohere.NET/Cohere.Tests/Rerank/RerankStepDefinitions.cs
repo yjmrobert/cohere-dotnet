@@ -5,6 +5,10 @@ using Xunit;
 namespace Cohere.Tests.Rerank;
 
 [Binding, Scope(Feature = "Rerank")]
+
+/// <summary>
+/// Step definitions for the Rerank feature
+/// </summary>
 public class RerankStepDefinitions
 {
     private readonly CohereStepDefinitions _cohereStepDefinitions;

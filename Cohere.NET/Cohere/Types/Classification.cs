@@ -1,5 +1,8 @@
 namespace Cohere.Types;
 
+/// <summary>
+/// A class representing the classification of a text
+/// </summary>
 public class Classification
 {
     /// <summary>
@@ -32,5 +35,4 @@ public class Classification
     /// The input text that was classified
     /// </summary>
     public string? Input { get; set; }
-
 }

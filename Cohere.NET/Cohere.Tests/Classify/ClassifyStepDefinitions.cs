@@ -5,6 +5,10 @@ using Xunit;
 namespace Cohere.Tests.Classify;
 
 [Binding, Scope(Feature = "Classify")]
+
+/// <summary>
+/// Step definitions for the Classify feature
+/// </summary>
 public class ClassifyStepDefinitions
 {
     private readonly CohereStepDefinitions _cohereStepDefinitions;

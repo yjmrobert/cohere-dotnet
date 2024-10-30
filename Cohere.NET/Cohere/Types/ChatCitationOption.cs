@@ -1,5 +1,8 @@
 namespace Cohere.Types;
 
+/// <summary>
+/// The options for citation generation
+/// </summary>
 public class ChatCitationOption
 {
     /// <summary>

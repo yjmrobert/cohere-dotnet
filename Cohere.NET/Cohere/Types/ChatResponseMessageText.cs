@@ -1,5 +1,8 @@
 namespace Cohere.Types;
 
+/// <summary>
+/// A text message in the content of a chat response
+/// </summary>
 public class ChatResponseMessageText
 {
     /// <summary>

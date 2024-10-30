@@ -1,5 +1,8 @@
 namespace Cohere.Types;
 
+/// <summary>
+/// The object received from the classify endpoint
+/// </summary>
 public class ClassifyResponse: ICohereResponse
 {
     // Visit https://docs.cohere.com/reference/classify#response for more information on the output fields

@@ -1,5 +1,8 @@
 namespace Cohere.Types;
 
+/// <summary>
+///  The object received from the rerank endpoint
+/// </summary>
 public class RerankResponse: ICohereResponse
 {
     // Visit https://docs.cohere.com/reference/rerank#response for more information on the output fields

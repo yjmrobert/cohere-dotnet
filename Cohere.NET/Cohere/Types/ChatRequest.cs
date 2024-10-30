@@ -1,5 +1,8 @@
 namespace Cohere.Types;
 
+/// <summary>
+/// The object to send to the chat endpoint
+/// </summary>
 public class ChatRequest: ICohereRequest
 {
     // Visit https://docs.cohere.com/reference/chat#request for more information on the input fields

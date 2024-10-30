@@ -1,5 +1,8 @@
 namespace Cohere.Types;
 
+/// <summary>
+/// The chat tool to be executed
+/// </summary>
 public class ChatTool
 {
         /// <summary>

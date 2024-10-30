@@ -5,6 +5,10 @@ using Xunit;
 namespace Cohere.Tests.Chat;
 
 [Binding, Scope(Feature = "Chat")]
+
+/// <summary>
+/// Step definitions for the Chat feature
+/// </summary>
 public class ChatStepDefinitions
 {
     private readonly CohereStepDefinitions _cohereStepDefinitions;

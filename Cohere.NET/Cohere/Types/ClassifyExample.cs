@@ -1,5 +1,8 @@
 namespace Cohere.Types;
 
+/// <summary>
+/// The model to define an example for classification training
+/// </summary>
 public class ClassifyExample
 {
     /// <summary>

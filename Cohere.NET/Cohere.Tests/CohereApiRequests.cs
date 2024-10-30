@@ -2,10 +2,11 @@ using Cohere.Types;
 
 namespace Cohere.Tests;
 
+/// <summary>
+/// Examples of valid request to the Cohere API guided by the API documentation
+/// </summary>
 public class CohereApiRequests
 {
-    /// Examples of valid request to the Cohere API guided by the API documentation
- 
     public static readonly ChatRequest ValidChatRequest1 = new()
     {
         Messages =

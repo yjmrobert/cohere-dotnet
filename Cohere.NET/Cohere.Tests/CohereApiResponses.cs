@@ -1,8 +1,10 @@
 namespace Cohere.Tests;
 
+/// <summary>
+/// Examples of valid responses from the Cohere API guided by the API documentation
+/// </summary>
 public static class CohereApiResponses
 {
-    /// Examples of valid responses from the Cohere API guided by the API documentation
     public static readonly string ValidChatResponse1 = @"
         {
         ""id"": ""c14c80c3-18eb-4519-9460-6c92edd8cfb4"",

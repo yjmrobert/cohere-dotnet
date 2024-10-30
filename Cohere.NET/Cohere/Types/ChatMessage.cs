@@ -3,6 +3,9 @@ using Cohere.CustomDeserializeConverters;
 
 namespace Cohere.Types;
 
+/// <summary>
+/// ChatMessage object that represents a message in a conversation with the model
+/// </summary>
 public class ChatMessage
 {
     /// <summary>
@@ -38,6 +41,4 @@ public class ChatMessage
     /// </summary>
     /// TO DO: Handle parsing various citation object types
     public List<object>? Citations { get; set; }
-
-
 }

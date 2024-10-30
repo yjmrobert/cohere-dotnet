@@ -1,5 +1,8 @@
 namespace Cohere.Types;
 
+/// <summary>
+/// Summary of the billed units for a request and response
+/// </summary>
 public class CohereBillledUnits
 {
     /// <summary>

@@ -1,5 +1,8 @@
 namespace Cohere.Types;
 
+/// <summary>
+/// The object to be sent to the classify endpoint
+/// </summary>
 public class ClassifyRequest: ICohereRequest
 {
    // Visit https://docs.cohere.com/reference/classify#request for more information on the input fields

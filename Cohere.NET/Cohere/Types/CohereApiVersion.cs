@@ -1,5 +1,8 @@
 namespace Cohere.Types;
 
+/// <summary>
+/// The version information of the API
+/// </summary>
 public class CohereApiVersion
 {
     /// <summary>

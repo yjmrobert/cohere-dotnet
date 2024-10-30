@@ -1,5 +1,8 @@
 namespace Cohere.Types;
 
+/// <summary>
+///  Meta information about the request and response
+/// </summary>
 public class CohereMeta
 {
     /// <summary>

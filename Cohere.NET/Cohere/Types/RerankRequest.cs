@@ -1,5 +1,8 @@
 namespace Cohere.Types;
 
+/// <summary>
+/// The object to be sent to the rerank endpoint
+/// </summary>
 public class RerankRequest: ICohereRequest
 {
     // Visit https://docs.cohere.com/reference/rerank#request for more information on the input fields

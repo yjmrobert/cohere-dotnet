@@ -2,6 +2,10 @@ using System.Net;
 using System.Text;
 
 namespace Cohere.Tests;
+
+/// <summary>
+/// A fake HTTP client for testing purposes
+/// </summary>
 public class CohereHttpClientFake : HttpMessageHandler
 {
     /// <summary>

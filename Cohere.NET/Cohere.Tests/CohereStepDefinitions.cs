@@ -4,6 +4,10 @@ using Xunit;
 namespace Cohere.Tests;
 
 [Binding]
+
+/// <summary>
+/// Defines the step definitions used by all Cohere tests
+/// </summary>
 public class CohereStepDefinitions
 {
     public CohereClient _client;
