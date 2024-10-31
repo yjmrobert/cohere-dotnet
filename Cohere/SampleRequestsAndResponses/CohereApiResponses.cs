@@ -1,10 +1,13 @@
-namespace Cohere.Tests;
+namespace Cohere.SampleRequestsAndResponses;
 
 /// <summary>
 /// Examples of valid responses from the Cohere API guided by the API documentation
 /// </summary>
 public static class CohereApiResponses
 {
+    /// <summary>
+    /// A valid response from the chat endpoint
+    /// </summary>
     public static readonly string ValidChatResponse1 = @"
         {
         ""id"": ""c14c80c3-18eb-4519-9460-6c92edd8cfb4"",
@@ -14,22 +17,25 @@ public static class CohereApiResponses
             ""content"": [
             {
                 ""type"": ""text"",
-                ""text"": ""Hello from Cohere!""
+                ""text"": ""Hello! How can I help you today?""
             }
             ]
         },
         ""usage"": {
             ""billed_units"": {
             ""input_tokens"": 5,
-            ""output_tokens"": 15
+            ""output_tokens"": 418
             },
             ""tokens"": {
             ""input_tokens"": 71,
-            ""output_tokens"": 15
+            ""output_tokens"": 418
             }
         }
         }";
 
+    /// <summary>
+    /// A valid response from the classify endpoint
+    /// </summary>
     public static readonly string ValidClassifyResponse1 = @"
         {
         ""id"": ""86886163-b3f3-4e36-8554-60eca7696216"",
@@ -87,6 +93,9 @@ public static class CohereApiResponses
         }
         }";
 
+    /// <summary>
+    /// A valid response from the rerank endpoint
+    /// </summary>
     public static readonly string ValidRerankResponse1 = @"
         {
         ""results"": [

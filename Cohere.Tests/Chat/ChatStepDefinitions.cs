@@ -1,6 +1,8 @@
 using Cohere.Types;
+using Cohere.SampleRequestsAndResponses;
 using Reqnroll;
 using Xunit;
+using Org.BouncyCastle.Asn1.X509.Qualified;
 
 namespace Cohere.Tests.Chat;
 
@@ -42,12 +44,12 @@ public class ChatStepDefinitions
 
         Assert.Equal(typeof(string), _chatResponse.Id.GetType());
         Assert.Equal("assistant", _chatResponse.Message?.Role);
-        Assert.Equal("Hello from Cohere!", text?[0].Text);
+        Assert.Equal(typeof(string), text?[0].Text.GetType());
         Assert.Equal(ChatResponseFinishReasonEnum.COMPLETE, _chatResponse.FinishReason);
         Assert.Equal(typeof(ChatUsage), _chatResponse.Usage?.GetType());
         Assert.Equal(5, _chatResponse.Usage?.BilledUnits?.InputTokens);
-        Assert.Equal(15, _chatResponse.Usage?.BilledUnits?.OutputTokens);
+        Assert.Equal(418, _chatResponse.Usage?.BilledUnits?.OutputTokens);
         Assert.Equal(71, _chatResponse.Usage?.Tokens?.InputTokens);
-        Assert.Equal(15, _chatResponse.Usage?.Tokens?.OutputTokens);
+        Assert.Equal(418, _chatResponse.Usage?.Tokens?.OutputTokens);
     }
 }

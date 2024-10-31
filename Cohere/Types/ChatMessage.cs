@@ -1,5 +1,5 @@
 using System.Text.Json.Serialization;
-using Cohere.CustomDeserializeConverters;
+using Cohere.CustomJsonConverters;
 
 namespace Cohere.Types;
 

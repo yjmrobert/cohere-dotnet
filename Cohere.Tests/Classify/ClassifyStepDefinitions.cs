@@ -1,4 +1,5 @@
 using Cohere.Types;
+using Cohere.SampleRequestsAndResponses;
 using Reqnroll;
 using Xunit;
 

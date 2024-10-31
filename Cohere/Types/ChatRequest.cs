@@ -10,7 +10,7 @@ public class ChatRequest: ICohereRequest
     /// <summary>
     /// The model to use for text generation
     /// </summary>
-    public string? Model { get; set; } = "command-r-plus";
+    public string? Model { get; set; } = "command-r-plus-08-2024";
 
     /// <summary>
     /// A list of chat messages in chronological order, representing a conversation between the user and the model. 
@@ -21,7 +21,7 @@ public class ChatRequest: ICohereRequest
     /// <summary>
     /// Specifies whether the model should stream responses or return them all at once
     /// </summary>
-    public bool? Stream { get; set; } = false;
+    public bool? Stream { get; set; }
 
     /// <summary>
     /// A list of available tools (functions) that the model may suggest invoking before producing a text response

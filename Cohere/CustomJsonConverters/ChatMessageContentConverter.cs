@@ -2,7 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Cohere.Types;
 
-namespace Cohere.CustomDeserializeConverters;
+namespace Cohere.CustomJsonConverters;
 
 /// <summary>
 /// A custom JSON converter for handling deserialization of the ChatMessageContent type

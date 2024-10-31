@@ -1,24 +1,31 @@
 using Cohere.Types;
 
-namespace Cohere.Tests;
+namespace Cohere.SampleRequestsAndResponses;
 
 /// <summary>
 /// Examples of valid request to the Cohere API guided by the API documentation
 /// </summary>
 public class CohereApiRequests
 {
-    public static readonly ChatRequest ValidChatRequest1 = new()
+    /// <summary>
+    /// A valid chat request
+    /// </summary>
+    public static readonly ChatRequest ValidChatRequest1 = new ChatRequest
     {
-        Messages =
-        [
+        Model = "command-r-plus-08-2024",
+        Messages = new List<ChatMessage>
+        {
             new ChatMessage
             {
                 Role = "user",
                 Content = "hello world!"
             }
-        ]
+        }
     };
 
+    /// <summary>
+    /// A valid classify request
+    /// </summary>
     public static readonly ClassifyRequest ValidClassifyRequest1 = new()
     {
         Examples =
@@ -41,6 +48,9 @@ public class CohereApiRequests
         ]
     };
 
+    /// <summary>
+    /// A valid rerank request
+    /// </summary>
     public static readonly RerankRequest ValidRerankRequest1 = new()
     {
         Model = "rerank-english-v3.0",
@@ -54,4 +64,7 @@ public class CohereApiRequests
         ],
         TopN = 3
     };
+
+    // TO DO: Add more valid requests for other API endpoints
+    // TO DO: Add invalid requests for all API endpoints
 }

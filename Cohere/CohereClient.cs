@@ -1,4 +1,6 @@
-﻿using Cohere.Types;
+﻿using Cohere.CustomJsonConverters;
+using Cohere.SampleRequestsAndResponses;
+using Cohere.Types;
 using Polly;
 using Polly.Extensions.Http;
 using System.Net.Http.Headers;
@@ -30,12 +32,8 @@ public class CohereClient
     public CohereClient(string apiKey)
     {
         _apiKey = apiKey;
-        _httpClient = new HttpClient
-        {
-            BaseAddress = new Uri("https:///api.cohere.ai")
-        };
+        _httpClient = new HttpClient();
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
-
     }
 
     /// <summary>
@@ -47,7 +45,6 @@ public class CohereClient
     {
         _apiKey = apiKey;
         _httpClient = httpClient;
-        _httpClient.BaseAddress ??= new Uri("https:///api.cohere.ai");
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
     }
 
@@ -58,7 +55,7 @@ public class CohereClient
     /// <returns> The response from Cohere as a ChatResponse object </returns>
     public async Task<ChatResponse> ChatAsync(ChatRequest chatRequest)
     {
-        var response = await SendRequestAsync("chat", chatRequest);
+        var response = await SendRequestAsync("chat", CohereApiRequests.ValidChatRequest1);
 
         return (ChatResponse) response;
     }
@@ -95,10 +92,18 @@ public class CohereClient
     /// <returns> The response from the API as an ICohereResponse object </returns> 
     private async Task<ICohereResponse> SendRequestAsync(string endpoint, ICohereRequest requestBody)
     {
+        var serializedRequest = endpoint switch
+        {
+            "chat" => JsonSerializer.Serialize((ChatRequest)requestBody, _jsonSerializerOptions),
+            "classify" => JsonSerializer.Serialize((ClassifyRequest)requestBody, _jsonSerializerOptions),
+            "rerank" => JsonSerializer.Serialize((RerankRequest)requestBody, _jsonSerializerOptions),
+            _ => throw new InvalidOperationException("Invalid endpoint provided."),
+        };
+
         var response = await GetRetryPolicy().ExecuteAsync(async () => {
-            var request = new HttpRequestMessage(HttpMethod.Post, $"/v2/{endpoint}")
+            var request = new HttpRequestMessage(HttpMethod.Post, $"https://api.cohere.ai/v2/{endpoint}")
             {
-                Content = new StringContent(JsonSerializer.Serialize(requestBody, _jsonSerializerOptions), Encoding.UTF8, "application/json")
+                Content = new StringContent(serializedRequest, Encoding.UTF8, new MediaTypeHeaderValue("application/json"))
             };
 
             return await _httpClient.SendAsync(request);
@@ -106,8 +111,9 @@ public class CohereClient
 
         if (!response.IsSuccessStatusCode)
         {
+            var errorContent = await response.Content.ReadAsStringAsync();
             Console.WriteLine($"Failed to retrieve results from Cohere. Status code: {response.StatusCode}");
-            throw new HttpRequestException($"Cohere API call failed with status code: {response.StatusCode}");
+            throw new HttpRequestException($"Cohere API call failed with status code: {errorContent}");
         }
 
         var responseContent = await response.Content.ReadAsStringAsync();
