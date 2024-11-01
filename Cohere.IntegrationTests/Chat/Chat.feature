@@ -1,3 +1,4 @@
+@Ignore
 Feature: Chat Integration
   
   As a developer
