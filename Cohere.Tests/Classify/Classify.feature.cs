@@ -99,15 +99,28 @@ namespace Cohere.Tests.Classify
             await this.TestTearDownAsync();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Classify valid text with Cohere")]
+        [Xunit.SkippableTheoryAttribute(DisplayName="Send a valid classify request with various settings")]
         [Xunit.TraitAttribute("FeatureTitle", "Classify")]
-        [Xunit.TraitAttribute("Description", "Classify valid text with Cohere")]
-        public async System.Threading.Tasks.Task ClassifyValidTextWithCohere()
+        [Xunit.TraitAttribute("Description", "Send a valid classify request with various settings")]
+        [Xunit.TraitAttribute("Category", "ValidRequests")]
+        [Xunit.InlineDataAttribute("BasicValidRequest", new string[0])]
+        [Xunit.InlineDataAttribute("MultipleLabels", new string[0])]
+        [Xunit.InlineDataAttribute("HighConfidence", new string[0])]
+        [Xunit.InlineDataAttribute("IdenticalInputs", new string[0])]
+        [Xunit.InlineDataAttribute("MixedLabels", new string[0])]
+        public async System.Threading.Tasks.Task SendAValidClassifyRequestWithVariousSettings(string testCase, string[] exampleTags)
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] @__tags = new string[] {
+                    "ValidRequests"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Classify valid text with Cohere", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 10
+            argumentsOfScenario.Add("TestCase", testCase);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Send a valid classify request with various settings", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 11
   this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -120,11 +133,56 @@ namespace Cohere.Tests.Classify
 #line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 11
-    await testRunner.WhenAsync("I send a valid classify request", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
 #line 12
-    await testRunner.ThenAsync("I should receive a valid classification response", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.WhenAsync(string.Format("I send a valid classify request with \"{0}\"", testCase), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 13
+    await testRunner.ThenAsync("I should receive a valid classify response", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableTheoryAttribute(DisplayName="Send an invalid classify request with incorrect settings")]
+        [Xunit.TraitAttribute("FeatureTitle", "Classify")]
+        [Xunit.TraitAttribute("Description", "Send an invalid classify request with incorrect settings")]
+        [Xunit.TraitAttribute("Category", "InvalidRequests")]
+        [Xunit.InlineDataAttribute("NullValues", new string[0])]
+        [Xunit.InlineDataAttribute("UnknownTruncate", new string[0])]
+        [Xunit.InlineDataAttribute("LessThanTwoExamplesPerLabel", new string[0])]
+        [Xunit.InlineDataAttribute("SingleLabelOnly", new string[0])]
+        [Xunit.InlineDataAttribute("EmptyExamples", new string[0])]
+        [Xunit.InlineDataAttribute("HighVolume", new string[0])]
+        public async System.Threading.Tasks.Task SendAnInvalidClassifyRequestWithIncorrectSettings(string invalidCase, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "InvalidRequests"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("InvalidCase", invalidCase);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Send an invalid classify request with incorrect settings", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 24
+  this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 25
+    await testRunner.WhenAsync(string.Format("I send an invalid classify request with \"{0}\"", invalidCase), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 26
+    await testRunner.ThenAsync("I should receive an error response", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

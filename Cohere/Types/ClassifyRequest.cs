@@ -15,6 +15,7 @@ public class ClassifyRequest: ICohereRequest
 
     /// <summary>
     /// An array of examples to provide context to the model
+    /// Required if using Cohere's default model
     /// </summary>
     public List<ClassifyExample>? Examples { get; set; }
 

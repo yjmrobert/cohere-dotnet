@@ -2,6 +2,8 @@ using Cohere.Types;
 using Cohere.SampleRequestsAndResponses;
 using Reqnroll;
 using Xunit;
+using System.Net;
+using Xunit.Abstractions;
 
 namespace Cohere.Tests.Classify;
 
@@ -14,38 +16,99 @@ public class ClassifyStepDefinitions
 {
     private readonly CohereStepDefinitions _cohereStepDefinitions;
     private ClassifyResponse? _classifyResponse;
+    private Exception? _caughtException;
+    private readonly ITestOutputHelper _output;
 
-    public ClassifyStepDefinitions(CohereStepDefinitions cohereStepDefinitions)
+    public ClassifyStepDefinitions(CohereStepDefinitions cohereStepDefinitions, ITestOutputHelper output)
     {
         _cohereStepDefinitions = cohereStepDefinitions;
+        _output = output;
     }
 
     /// <summary>
-    /// Sends ValidClassifyRequest1 to the mocked Cohere API and sets ValidClassifyResponse1 to be returned
+    /// Sends a valid classify request with various configurations to the mocked Cohere API endpoint
     /// </summary>
-    [When(@"I send a valid classify request")]
-    public async Task WhenISendAValidClassifyRequest()
+    [When(@"I send a valid classify request with ""(.*)""")]
+    public async Task WhenISendAValidClassifyRequestWith(string testCase)
     {
-        _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = CohereApiResponses.ValidClassifyResponse1;
-        _classifyResponse = await _cohereStepDefinitions._client.ClassifyAsync(CohereApiRequests.ValidClassifyRequest1);
+        _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleClassifyResponses.GetValidResponse(testCase);
+        _classifyResponse = await _cohereStepDefinitions._client.ClassifyAsync(SampleClassifyRequests.GetValidRequest(testCase));
     }
 
     /// <summary>
-    /// Verifies that ValidClassifyResponse1 is received from the mocked Cohere API and checks parsing of response fields
+    /// Verifies that a valid classify response is received from the mocked Cohere API and checks parsing of response fields
     /// </summary>
-    [Then(@"I should receive a valid classification response")]
+    [Then(@"I should receive a valid classify response")]
     public void ThenIShouldReceiveAValidClassifyResponse()
     {
         Assert.NotNull(_classifyResponse);
-        Assert.Equal("Not spam", _classifyResponse.Classifications[0].Predictions[0]);
-        Assert.Equal("Spam", _classifyResponse.Classifications[1].Predictions[0]);
-        Assert.Equal(0.5661598, _classifyResponse.Classifications[0].Confidences[0]);
-        Assert.Equal(0.43384025, _classifyResponse.Classifications[0].Labels["Spam"].Confidence);
-        Assert.Equal("single-label", _classifyResponse.Classifications[0].ClassificationType);
-        Assert.Equal("Confirm your email address", _classifyResponse.Classifications[0].Input);
-        Assert.Equal(typeof(string), _classifyResponse.Id.GetType());
-        Assert.Equal(typeof(CohereMeta), _classifyResponse.Meta?.GetType());
-        Assert.Equal("1", _classifyResponse.Meta?.ApiVersion?.Version);
-        Assert.Equal(2, _classifyResponse.Meta?.BilledUnits?.Classifications);
+        
+        Assert.IsType<string>(_classifyResponse.Id);
+        Assert.False(string.IsNullOrWhiteSpace(_classifyResponse.Id));
+
+        Assert.NotNull(_classifyResponse.Classifications);
+        Assert.NotEmpty(_classifyResponse.Classifications);
+
+        foreach (var classification in _classifyResponse.Classifications)
+        {
+            Assert.IsType<string>(classification.ClassificationType);
+            Assert.False(string.IsNullOrWhiteSpace(classification.ClassificationType));
+
+            Assert.NotNull(classification.Predictions);
+            Assert.NotEmpty(classification.Predictions);
+            Assert.All(classification.Predictions, prediction => Assert.IsType<string>(prediction));
+
+            Assert.NotNull(classification.Confidences);
+            Assert.NotEmpty(classification.Confidences);
+            Assert.All(classification.Confidences, confidence => Assert.IsType<double>(confidence));
+
+            Assert.NotNull(classification.Labels);
+            Assert.NotEmpty(classification.Labels);
+        }
+
+        Assert.IsType<CohereMeta>(_classifyResponse.Meta);
+        Assert.NotNull(_classifyResponse.Meta?.ApiVersion);
+        Assert.IsType<string>(_classifyResponse.Meta.ApiVersion.Version);
+        Assert.NotNull(_classifyResponse.Meta?.BilledUnits);
+        Assert.IsType<double>(_classifyResponse.Meta.BilledUnits.Classifications);
+    }
+
+    /// <summary>
+    /// Sends an invalid classify request with various incorrect configurations to the mocked Cohere API endpoint
+    /// </summary>
+    [When(@"I send an invalid classify request with ""(.*)""")]
+    public async Task WhenISendAnInvalidClassifyRequestWith(string invalidCase)
+    {
+        _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleClassifyResponses.GetInvalidResponse(invalidCase);
+        _cohereStepDefinitions._httpMessageHandlerFake.StatusCode = HttpStatusCode.BadRequest;
+
+        if (invalidCase == "UnknownTruncate")
+        {
+            _cohereStepDefinitions._httpMessageHandlerFake.StatusCode = HttpStatusCode.UnprocessableEntity;
+        }
+        else if (invalidCase == "HighVolumeRequest")
+        {
+            _cohereStepDefinitions._httpMessageHandlerFake.StatusCode = HttpStatusCode.RequestEntityTooLarge;
+        }
+
+        try
+        {
+            _classifyResponse = await _cohereStepDefinitions._client.ClassifyAsync(SampleClassifyRequests.GetInvalidRequest(invalidCase));
+        }
+        catch (Exception ex)
+        {
+            _caughtException = ex;
+        }
+    }
+
+    /// <summary>
+    /// Verifies that an error response is received from the mocked Cohere API
+    /// </summary>
+    [Then(@"I should receive an error response")]
+    public void ThenIShouldReceiveAnErrorResponse()
+    {
+        Assert.NotNull(_caughtException);
+        Assert.IsType<CohereApiException>(_caughtException);
+        _output.WriteLine(_caughtException.ToString());
     }
 }

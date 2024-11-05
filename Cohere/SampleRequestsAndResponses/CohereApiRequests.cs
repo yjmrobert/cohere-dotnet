@@ -10,7 +10,7 @@ public class CohereApiRequests
     /// <summary>
     /// A valid chat request
     /// </summary>
-    public static readonly ChatRequest ValidChatRequest1 = new ChatRequest
+    public static readonly ChatRequest ValidCshatRequest1 = new ChatRequest
     {
         Model = "command-r-plus-08-2024",
         Messages = new List<ChatMessage>

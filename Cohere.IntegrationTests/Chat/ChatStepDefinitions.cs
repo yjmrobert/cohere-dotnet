@@ -27,7 +27,7 @@ public class ChatStepDefinitions
     [When(@"I send a valid chat request")]
     public async Task WhenISendAValidChatRequest()
     {
-        _chatResponse = await _cohereStepDefinitions._client.ChatAsync(CohereApiRequests.ValidChatRequest1);
+        _chatResponse = await _cohereStepDefinitions._client.ChatAsync(SampleChatRequests.BasicValidRequest);
     }
 
     /// <summary>

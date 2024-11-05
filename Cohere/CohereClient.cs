@@ -55,7 +55,7 @@ public class CohereClient
     /// <returns> The response from Cohere as a ChatResponse object </returns>
     public async Task<ChatResponse> ChatAsync(ChatRequest chatRequest)
     {
-        var response = await SendRequestAsync("chat", CohereApiRequests.ValidChatRequest1);
+        var response = await SendRequestAsync("chat", chatRequest);
 
         return (ChatResponse) response;
     }
@@ -109,14 +109,27 @@ public class CohereClient
             return await _httpClient.SendAsync(request);
         });
 
+        var responseContent = await response.Content.ReadAsStringAsync();
+
         if (!response.IsSuccessStatusCode)
         {
-            var errorContent = await response.Content.ReadAsStringAsync();
-            Console.WriteLine($"Failed to retrieve results from Cohere. Status code: {response.StatusCode}");
-            throw new HttpRequestException($"Cohere API call failed with status code: {errorContent}");
-        }
+            string errorMessage;
+            string errorDetails;
 
-        var responseContent = await response.Content.ReadAsStringAsync();
+            try
+            {
+                var errorResponse = JsonSerializer.Deserialize<Dictionary<string, string>>(responseContent, _jsonSerializerOptions);
+                errorMessage = errorResponse?.GetValueOrDefault("message") ?? "An unknown error occurred.";
+                errorDetails = JsonSerializer.Serialize(errorResponse, _jsonSerializerOptions);
+            }
+            catch (JsonException)
+            {
+                errorMessage = "Failed to parse error response.";
+                errorDetails = responseContent;
+            }
+
+            throw new CohereApiException(response.StatusCode, endpoint, errorMessage, errorDetails);
+        }
 
         ICohereResponse result = endpoint switch
         {
