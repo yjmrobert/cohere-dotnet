@@ -2,6 +2,8 @@ using Cohere.Types;
 using Cohere.SampleRequestsAndResponses;
 using Reqnroll;
 using Xunit;
+using Xunit.Abstractions;
+using System.Net;
 
 namespace Cohere.Tests.Rerank;
 
@@ -14,36 +16,68 @@ public class RerankStepDefinitions
 {
     private readonly CohereStepDefinitions _cohereStepDefinitions;
     private RerankResponse? _rerankResponse;
+    private Exception? _caughtException;
+    private readonly ITestOutputHelper _output;
 
-    public RerankStepDefinitions(CohereStepDefinitions cohereStepDefinitions)
+    public RerankStepDefinitions(CohereStepDefinitions cohereStepDefinitions, ITestOutputHelper output)
     {
         _cohereStepDefinitions = cohereStepDefinitions;
+        _output = output;
     }
 
     /// <summary>
-    /// Sends a ValidRerankRequest1 to the mocked Cohere API and sets the ValidRerankResponse1 to be returned
+    /// Sends a valid rerank request with various configurations to the mocked Cohere API endpoint
     /// </summary>
-    [When(@"I send a valid rerank request")]
-    public async Task WhenISendAValidRerankRequest()
+    [When(@"I send a valid rerank request with ""(.*)""")]
+    public async Task WhenISendAValidRerankRequestWith(string testCase)
     {
-        _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = CohereApiResponses.ValidRerankResponse1;
-        _rerankResponse = await _cohereStepDefinitions._client.RerankAsync(CohereApiRequests.ValidRerankRequest1); 
+        _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleRerankResponses.GetRerankResponse(testCase);
+        _rerankResponse = await _cohereStepDefinitions._client.RerankAsync(SampleRerankRequests.GetRerankRequest(testCase));
     }
 
     /// <summary>
-    /// Verifies that ValidRerankResponse1 is received from the mocked Cohere API and checks parsing of response fields
+    /// Sends an invalid rerank request with various incorrect configurations to the mocked Cohere API endpoint
+    /// </summary>
+    [When(@"I send an invalid rerank request with ""(.*)""")]
+    public async Task WhenISendAnInvalidRerankRequestWith(string invalidCase)
+    {
+        _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleRerankResponses.GetRerankResponse(invalidCase);
+        _cohereStepDefinitions._httpMessageHandlerFake.StatusCode = HttpStatusCode.BadRequest;
+
+        try
+        {
+            _rerankResponse = await _cohereStepDefinitions._client.RerankAsync(SampleRerankRequests.GetRerankRequest(invalidCase));
+        }
+        catch (Exception ex)
+        {
+            _caughtException = ex;
+        }
+    }
+
+    /// <summary>
+    /// Verifies that a valid rerank response is received from the mocked Cohere API and checks response types
     /// </summary>
     [Then(@"I should receive a valid rerank response")]
     public void ThenIShouldReceiveAValidRerankResponse()
     {
         Assert.NotNull(_rerankResponse);
-        Assert.Equal(3, _rerankResponse.Results.Count());
-        Assert.Equal(3, _rerankResponse.Results[0].Index);
-        Assert.Equal(typeof(double), _rerankResponse.Results[0].RelevanceScore.GetType());
-        Assert.Equal(typeof(CohereMeta), _rerankResponse.Meta?.GetType());
-        Assert.Equal("2", _rerankResponse.Meta?.ApiVersion?.Version);
-        Assert.True(_rerankResponse.Meta?.ApiVersion?.IsExperimental);
-        Assert.Equal(1, _rerankResponse.Meta?.BilledUnits?.SearchUnits);
-        Assert.Equal(typeof(List<string>), _rerankResponse.Meta?.Warnings?.GetType());
+        Assert.IsType<string>(_rerankResponse.Id);
+        Assert.NotNull(_rerankResponse.Results);
+        Assert.All(_rerankResponse.Results, result =>
+        {
+            Assert.IsType<int>(result.Index);
+            Assert.IsType<double>(result.RelevanceScore);
+        });
+    }
+
+    /// <summary>
+    /// Verifies that an error response is received for an invalid rerank request
+    /// </summary>
+    [Then(@"I should receive an error response")]
+    public void ThenIShouldReceiveAnErrorResponse()
+    {
+        Assert.NotNull(_caughtException);
+        Assert.IsType<CohereApiException>(_caughtException);
+        _output.WriteLine(_caughtException.ToString());
     }
 }

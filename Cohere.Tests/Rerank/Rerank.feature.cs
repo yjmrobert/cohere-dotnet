@@ -99,15 +99,28 @@ namespace Cohere.Tests.Rerank
             await this.TestTearDownAsync();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Rerank text with Cohere")]
+        [Xunit.SkippableTheoryAttribute(DisplayName="Send a valid rerank request with various configurations")]
         [Xunit.TraitAttribute("FeatureTitle", "Rerank")]
-        [Xunit.TraitAttribute("Description", "Rerank text with Cohere")]
-        public async System.Threading.Tasks.Task RerankTextWithCohere()
+        [Xunit.TraitAttribute("Description", "Send a valid rerank request with various configurations")]
+        [Xunit.TraitAttribute("Category", "ValidRequests")]
+        [Xunit.InlineDataAttribute("BasicValidRequest", new string[0])]
+        [Xunit.InlineDataAttribute("LargeDocumentSet", new string[0])]
+        [Xunit.InlineDataAttribute("HighRelevanceThreshold", new string[0])]
+        [Xunit.InlineDataAttribute("DuplicateDocuments", new string[0])]
+        [Xunit.InlineDataAttribute("NoRelevance", new string[0])]
+        public async System.Threading.Tasks.Task SendAValidRerankRequestWithVariousConfigurations(string testCase, string[] exampleTags)
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] @__tags = new string[] {
+                    "ValidRequests"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Rerank text with Cohere", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 10
+            argumentsOfScenario.Add("TestCase", testCase);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Send a valid rerank request with various configurations", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 11
   this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -120,11 +133,53 @@ namespace Cohere.Tests.Rerank
 #line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 11
-    await testRunner.WhenAsync("I send a valid rerank request", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
 #line 12
+    await testRunner.WhenAsync(string.Format("I send a valid rerank request with \"{0}\"", testCase), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 13
     await testRunner.ThenAsync("I should receive a valid rerank response", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableTheoryAttribute(DisplayName="Send an invalid rerank request with incorrect settings")]
+        [Xunit.TraitAttribute("FeatureTitle", "Rerank")]
+        [Xunit.TraitAttribute("Description", "Send an invalid rerank request with incorrect settings")]
+        [Xunit.TraitAttribute("Category", "InvalidRequests")]
+        [Xunit.InlineDataAttribute("NullValues", new string[0])]
+        [Xunit.InlineDataAttribute("EmptyQuery", new string[0])]
+        [Xunit.InlineDataAttribute("NoDocumentsProvided", new string[0])]
+        public async System.Threading.Tasks.Task SendAnInvalidRerankRequestWithIncorrectSettings(string invalidCase, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "InvalidRequests"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("InvalidCase", invalidCase);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Send an invalid rerank request with incorrect settings", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 24
+  this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 25
+    await testRunner.WhenAsync(string.Format("I send an invalid rerank request with \"{0}\"", invalidCase), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 26
+    await testRunner.ThenAsync("I should receive an error response", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

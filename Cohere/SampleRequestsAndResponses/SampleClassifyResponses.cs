@@ -214,33 +214,23 @@ public class SampleClassifyResponses
     }";
 
     /// <summary>
-    /// Returns a valid response based on the test case name
+    /// Returns a response based on the test case name
     /// </summary>
     /// <param name="testCase"> The name of the test case </param>
-    /// <returns> A valid classify response </returns>
-    public static string GetValidResponse(string testCase) => testCase switch
+    /// <returns> A classify response </returns>
+    public static string GetClassifyResponse(string testCase) => testCase switch
     {
         "BasicValidRequest" => BasicValidResponse,
         "MultipleLabels" => MultipleLabelsResponse,
         "HighConfidence" => HighConfidenceResponse,
         "IdenticalInputs" => IdenticalInputsResponse,
         "MixedLabels" => MixedLabelsResponse,
-        _ => throw new ArgumentException($"Invalid test case: {testCase}")
-    };
-
-    /// <summary>
-    /// Returns an invalid response based on the invalid case name
-    /// </summary>
-    /// <param name="invalidCase"> The name of the invalid case </param>
-    /// <returns> An invalid classify response </returns>
-    public static string GetInvalidResponse(string invalidCase) => invalidCase switch
-    {
         "NullValues" => NullValuesResponse,
         "UnknownTruncate" => UnknownTruncateResponse,
         "LessThanTwoExamplesPerLabel" => LessThanTwoExamplesPerLabelResponse,
         "SingleLabelOnly" => SingleLabelOnlyResponse,
         "EmptyExamples" => EmptyExamplesResponse,
         "HighVolume" => HighVolumeResponse,
-        _ => throw new ArgumentException($"Invalid test case: {invalidCase}")
+        _ => throw new ArgumentException($"Invalid test case: {testCase}")
     };
 }

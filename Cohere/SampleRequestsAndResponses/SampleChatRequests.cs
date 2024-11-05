@@ -3,7 +3,7 @@ using Cohere.Types;
 namespace Cohere.SampleRequestsAndResponses;
 
 /// <summary>
-/// Examples of valid chat requests to the Cohere API
+/// Examples of valid and invalid chat requests to the Cohere API
 /// </summary>
 public class SampleChatRequests
 {
@@ -145,7 +145,7 @@ public class SampleChatRequests
     /// </summary>
     /// <param name="testCase"> The name of the test case </param>
     /// <returns> A ChatRequest for the specified test case </returns>
-    public static ChatRequest GetValidRequest(string testCase) => testCase switch
+    public static ChatRequest GetChatRequest(string testCase) => testCase switch
     {
         "BasicValidRequest" => BasicValidRequest,
         "MaxTokensRequest" => MaxTokensRequest,
@@ -153,16 +153,6 @@ public class SampleChatRequests
         "BoundaryKAndPZeroAndOne" => BoundaryKAndPZeroAndOneRequest,
         "BoundaryKAndPMaxAndMin" => BoundaryKAndPMaxAndMinRequest,
         "FiveStopSequencesRequest" => FiveStopSequencesRequest,
-        _ => throw new ArgumentException("Invalid test case provided.")
-    };
-
-    /// <summary>
-    /// Retrieves an invalid chat request based on the specified case name
-    /// </summary>
-    /// <param name="invalidCase"> The name of the invalid case </param>
-    /// <returns> The corresponding invalid ChatRequest </returns>
-    public static ChatRequest GetInvalidRequest(string invalidCase) => invalidCase switch
-    {
         "InvalidMaxTokens" => InvalidMaxTokensRequest,
         "InvalidTemperature" => InvalidTemperatureRequest,
         "InvalidSafetyMode" => InvalidSafetyModeRequest,

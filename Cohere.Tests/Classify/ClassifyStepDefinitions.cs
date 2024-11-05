@@ -31,8 +31,8 @@ public class ClassifyStepDefinitions
     [When(@"I send a valid classify request with ""(.*)""")]
     public async Task WhenISendAValidClassifyRequestWith(string testCase)
     {
-        _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleClassifyResponses.GetValidResponse(testCase);
-        _classifyResponse = await _cohereStepDefinitions._client.ClassifyAsync(SampleClassifyRequests.GetValidRequest(testCase));
+        _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleClassifyResponses.GetClassifyResponse(testCase);
+        _classifyResponse = await _cohereStepDefinitions._client.ClassifyAsync(SampleClassifyRequests.GetClassifyRequest(testCase));
     }
 
     /// <summary>
@@ -79,7 +79,7 @@ public class ClassifyStepDefinitions
     [When(@"I send an invalid classify request with ""(.*)""")]
     public async Task WhenISendAnInvalidClassifyRequestWith(string invalidCase)
     {
-        _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleClassifyResponses.GetInvalidResponse(invalidCase);
+        _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleClassifyResponses.GetClassifyResponse(invalidCase);
         _cohereStepDefinitions._httpMessageHandlerFake.StatusCode = HttpStatusCode.BadRequest;
 
         if (invalidCase == "UnknownTruncate")
@@ -93,7 +93,7 @@ public class ClassifyStepDefinitions
 
         try
         {
-            _classifyResponse = await _cohereStepDefinitions._client.ClassifyAsync(SampleClassifyRequests.GetInvalidRequest(invalidCase));
+            _classifyResponse = await _cohereStepDefinitions._client.ClassifyAsync(SampleClassifyRequests.GetClassifyRequest(invalidCase));
         }
         catch (Exception ex)
         {

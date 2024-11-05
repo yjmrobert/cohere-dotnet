@@ -32,8 +32,8 @@ public class ChatStepDefinitions
     [When(@"I send a valid chat request with ""(.*)""")]
     public async Task WhenISendAValidChatRequestWith(string testCase)
     {
-        _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleChatResponses.GetValidResponse(testCase);
-        _chatResponse = await _cohereStepDefinitions._client.ChatAsync(SampleChatRequests.GetValidRequest(testCase));
+        _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleChatResponses.GetChatResponse(testCase);
+        _chatResponse = await _cohereStepDefinitions._client.ChatAsync(SampleChatRequests.GetChatRequest(testCase));
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ public class ChatStepDefinitions
     [When(@"I send an invalid chat request with ""(.*)""")]
     public async Task WhenISendAnInvalidChatRequestWith(string invalidCase)
     {
-        _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleChatResponses.GetInvalidResponse(invalidCase);
+        _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleChatResponses.GetChatResponse(invalidCase);
         _cohereStepDefinitions._httpMessageHandlerFake.StatusCode = HttpStatusCode.BadRequest;
 
         if (invalidCase == "InvalidSafetyMode")
@@ -77,7 +77,7 @@ public class ChatStepDefinitions
 
         try
         {
-            _chatResponse = await _cohereStepDefinitions._client.ChatAsync(SampleChatRequests.GetInvalidRequest(invalidCase));
+            _chatResponse = await _cohereStepDefinitions._client.ChatAsync(SampleChatRequests.GetChatRequest(invalidCase));
         }
         catch (Exception ex)
         {

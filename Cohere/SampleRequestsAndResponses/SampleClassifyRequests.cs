@@ -162,33 +162,23 @@ public static class SampleClassifyRequests
     };
 
     /// <summary>
-    /// Returns a valid classify request based on the test case name
+    /// Returns a classify request based on the test case name
     /// </summary>
     /// <param name="testCase"> The name of the test case </param>
-    /// <returns> A valid classify request </returns>
-    public static ClassifyRequest GetValidRequest(string testCase) => testCase switch
+    /// <returns> A classify request </returns>
+    public static ClassifyRequest GetClassifyRequest(string testCase) => testCase switch
     {
         "BasicValidRequest" => BasicValidRequest,
         "MultipleLabels" => MultipleLabelsRequest,
         "HighConfidence" => HighConfidenceRequest,
         "IdenticalInputs" => IdenticalInputsRequest,
         "MixedLabels" => MixedLabelsRequest,
-        _ => throw new ArgumentException($"Invalid test case: {testCase}")
-    };
-
-    /// <summary>
-    /// Returns an invalid classify request based on the invalid case name
-    /// </summary>
-    /// <param name="invalidCase"> The name of the invalid case </param>
-    /// <returns> An invalid classify request </returns>
-    public static ClassifyRequest GetInvalidRequest(string invalidCase) => invalidCase switch
-    {
         "NullValues" => NullValuesRequest,
         "UnknownTruncate" => UnknownTruncateRequest,
         "LessThanTwoExamplesPerLabel" => LessThanTwoExamplesPerLabelRequest,
         "SingleLabelOnly" => SingleLabelOnlyRequest,
         "EmptyExamples" => EmptyExamplesRequest,
         "HighVolume" => HighVolumeRequest,
-        _ => throw new ArgumentException($"Invalid test case: {invalidCase}")
+        _ => throw new ArgumentException($"Invalid test case: {testCase}")
     };
 }

@@ -1,7 +1,7 @@
 namespace Cohere.SampleRequestsAndResponses;
 
 /// <summary>
-/// Examples of valid chat responses from the Cohere API
+/// Examples of valid and invalid chat responses from the Cohere API
 /// </summary>
 
 public class SampleChatResponses
@@ -219,7 +219,7 @@ public class SampleChatResponses
     /// </summary>
     /// <param name="testCase"> The name of the test case </param>
     /// <returns> A string containing the expected response JSON for the specified test case </returns>
-    public static string GetValidResponse(string testCase) => testCase switch
+    public static string GetChatResponse(string testCase) => testCase switch
     {
         "BasicValidRequest" => BasicValidResponse,
         "MaxTokensRequest" => MaxTokensResponse,
@@ -227,21 +227,11 @@ public class SampleChatResponses
         "BoundaryKAndPZeroAndOne" => BoundaryKAndPZeroAndOneResponse,
         "BoundaryKAndPMaxAndMin" => BoundaryKAndPZeroAndOneResponse,
         "FiveStopSequencesRequest" => FiveStopSequencesResponse,
-        _ => throw new ArgumentException("Invalid test case provided.")
-    };
-
-    /// <summary>
-    /// Retrieves the expected invalid response content based on the test case name
-    /// </summary>
-    /// <param name="testCase"> The name of the test case </param>
-    /// <returns> A string containing the expected response JSON for the specified test case </returns>
-    public static string GetInvalidResponse(string testCase) => testCase switch
-    {
         "InvalidMaxTokens" => InvalidMaxTokensResponse,
         "InvalidTemperature" => InvalidTemperatureResponse,
         "InvalidSafetyMode" => InvalidSafetyModeResponse,
         "ExceedStopSequencesLimit" => ExceedStopSequencesLimitResponse,
         "MissingRequiredFields" => MissingRequiredFieldsResponse,
-        _ => throw new ArgumentException("Invalid test case provided.")
+        _ => throw new ArgumentException("Invalid test case: {testCase}")
     };
 }
