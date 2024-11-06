@@ -55,10 +55,7 @@ public class CohereClient: IDisposable
     /// <returns> The response from Cohere as a ChatResponse object </returns>
     public async Task<ChatResponse> ChatAsync(ChatRequest chatRequest)
     {
-        if (chatRequest == null || chatRequest.GetType() != typeof(ChatRequest))
-        {
-            throw new InvalidOperationException("Input must be a ChatRequest object.");
-        }
+        ArgumentNullException.ThrowIfNull(chatRequest);
 
         var response = await SendRequestAsync("chat", chatRequest);
 
@@ -72,10 +69,7 @@ public class CohereClient: IDisposable
     /// <returns> The response from Cohere as a ClassifyResponse object </returns>
     public async Task<ClassifyResponse> ClassifyAsync(ClassifyRequest classifyRequest)
     {
-        if (classifyRequest == null || classifyRequest.GetType() != typeof(ClassifyRequest))
-        {
-            throw new InvalidOperationException("Input must be a ClassifyRequest object.");
-        }
+        ArgumentNullException.ThrowIfNull(classifyRequest);
 
         var response = await SendRequestAsync("classify", classifyRequest);
 
@@ -89,11 +83,8 @@ public class CohereClient: IDisposable
     /// <returns> The response from Cohere as a RerankResponse object </returns>
     public async Task<RerankResponse> RerankAsync(RerankRequest rerankRequest)
     {
-        if (rerankRequest == null || rerankRequest.GetType() != typeof(RerankRequest))
-        {
-            throw new InvalidOperationException("Input must be a RerankRequest object.");
-        }
-        
+        ArgumentNullException.ThrowIfNull(rerankRequest);
+
         var response = await SendRequestAsync("rerank", rerankRequest);
 
         return (RerankResponse) response;
