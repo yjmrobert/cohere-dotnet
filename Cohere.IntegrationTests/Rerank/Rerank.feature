@@ -8,6 +8,26 @@ Feature: Rerank Integration
     Given I have a valid API key
     And I have instantiated the Cohere client
 
-  Scenario Outline: Rerank text with Cohere
-    When I send a valid rerank request
+  @ValidRequests
+  Scenario Outline: Send a valid rerank request with various configurations
+    When I send a valid rerank request with "<TestCase>"
     Then I should receive a valid rerank response
+
+    Examples:
+      | TestCase                |
+      | BasicValidRequest       |
+      | LargeDocumentSet        |
+      | HighRelevanceThreshold  |
+      | DuplicateDocuments      |
+      | NoRelevance             |
+
+  @InvalidRequests
+  Scenario Outline: Send an invalid rerank request with incorrect settings
+    When I send an invalid rerank request with "<InvalidCase>"
+    Then I should receive an error response
+
+    Examples:
+      | InvalidCase             |
+      | NullValues              |
+      | EmptyQuery              |
+      | NoDocumentsProvided     |
