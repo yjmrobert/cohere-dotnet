@@ -1,6 +1,10 @@
 # Cohere.NET
 
-**Cohere.NET** provides a simple interface for interacting with the [Cohere API](https://cohere.com), enabling developers to integrate state-of-the-art language models into their .NET applications.
+**Cohere.NET** provides a simple interface for interacting with the [Cohere API](https://cohere.com), enabling developers to integrate state-of-the-art language models into their .NET applications. The supported endpoints are:
+
+- Chat
+- Classify
+- Rerank
 
 ## Installation
 
