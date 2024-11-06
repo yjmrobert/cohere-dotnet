@@ -1,4 +1,6 @@
-namespace Cohere.Types;         
+using Cohere.Types.Shared;
+
+namespace Cohere.Types.Chat;         
 
 /// <summary>
 /// The object received for the response of a chat request

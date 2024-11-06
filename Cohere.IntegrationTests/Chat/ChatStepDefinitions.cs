@@ -1,4 +1,5 @@
-using Cohere.Types;
+using Cohere.Types.Chat;
+using Cohere.Types.Shared;
 using Cohere.SampleRequestsAndResponses;
 using Reqnroll;
 using Xunit;
@@ -30,7 +31,14 @@ public class ChatStepDefinitions
     [When(@"I send a valid chat request with ""(.*)""")]
     public async Task WhenISendAValidChatRequestWith(string testCase)
     {
-        _chatResponse = await _cohereStepDefinitions._client.ChatAsync(SampleChatRequests.GetChatRequest(testCase));
+        if (_cohereStepDefinitions._client != null)
+        {
+            _chatResponse = await _cohereStepDefinitions._client.ChatAsync(SampleChatRequests.GetChatRequest(testCase));
+        }
+        else
+        {
+            throw new InvalidOperationException("Client is not initialized.");
+        }
     }
 
     /// <summary>
@@ -66,7 +74,14 @@ public class ChatStepDefinitions
     {
         try
         {
-            _chatResponse = await _cohereStepDefinitions._client.ChatAsync(SampleChatRequests.GetChatRequest(invalidCase));
+            if (_cohereStepDefinitions._client != null)
+            {
+                _chatResponse = await _cohereStepDefinitions._client.ChatAsync(SampleChatRequests.GetChatRequest(invalidCase));
+            }
+            else
+            {
+                throw new InvalidOperationException("Client is not initialized.");
+            }
         }
         catch (Exception ex)
         {

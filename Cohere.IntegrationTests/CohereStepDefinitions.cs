@@ -10,7 +10,7 @@ namespace Cohere.IntegrationTests;
 /// </summary>
 public class CohereStepDefinitions
 {
-    public CohereClient _client;
+    public CohereClient? _client;
     
     /// <summary>
     /// Verifies that an API key is available for testing

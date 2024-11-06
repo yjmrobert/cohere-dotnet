@@ -10,8 +10,8 @@ namespace Cohere.Tests;
 /// </summary>
 public class CohereStepDefinitions
 {
-    public CohereClient _client;
-    public CohereHttpClientFake _httpMessageHandlerFake;
+    public CohereClient? _client;
+    public CohereHttpClientFake? _httpMessageHandlerFake;
     private readonly string _apiKey = "test-api-key";
     
     /// <summary>

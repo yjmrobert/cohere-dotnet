@@ -1,4 +1,4 @@
-using Cohere.Types;
+using Cohere.Types.Rerank;
 
 namespace Cohere.SampleRequestsAndResponses;
 

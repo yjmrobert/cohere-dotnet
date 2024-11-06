@@ -1,4 +1,6 @@
-namespace Cohere.Types;
+using Cohere.Types.Shared;
+
+namespace Cohere.Types.Chat;
 
 /// <summary>
 /// The object to send to the chat endpoint
@@ -10,7 +12,7 @@ public class ChatRequest: ICohereRequest
     /// <summary>
     /// The model to use for text generation
     /// </summary>
-    public string? Model { get; set; } = "command-r-plus-08-2024";
+    public string? Model { get; set; } = CohereDefaultModelNames.DefaultChatModel;
 
     /// <summary>
     /// A list of chat messages in chronological order, representing a conversation between the user and the model. 

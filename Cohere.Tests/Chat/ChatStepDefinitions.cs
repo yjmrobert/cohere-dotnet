@@ -1,4 +1,5 @@
-using Cohere.Types;
+using Cohere.Types.Chat;
+using Cohere.Types.Shared;
 using Cohere.SampleRequestsAndResponses;
 using Reqnroll;
 using Xunit;
@@ -32,8 +33,15 @@ public class ChatStepDefinitions
     [When(@"I send a valid chat request with ""(.*)""")]
     public async Task WhenISendAValidChatRequestWith(string testCase)
     {
-        _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleChatResponses.GetChatResponse(testCase);
-        _chatResponse = await _cohereStepDefinitions._client.ChatAsync(SampleChatRequests.GetChatRequest(testCase));
+        if (_cohereStepDefinitions._client != null && _cohereStepDefinitions._httpMessageHandlerFake != null)
+        {
+            _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleChatResponses.GetChatResponse(testCase);
+            _chatResponse = await _cohereStepDefinitions._client.ChatAsync(SampleChatRequests.GetChatRequest(testCase));
+        }
+        else
+        {
+            throw new InvalidOperationException("Client is not initialized.");
+        }
     }
 
     /// <summary>
@@ -67,21 +75,28 @@ public class ChatStepDefinitions
     [When(@"I send an invalid chat request with ""(.*)""")]
     public async Task WhenISendAnInvalidChatRequestWith(string invalidCase)
     {
-        _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleChatResponses.GetChatResponse(invalidCase);
-        _cohereStepDefinitions._httpMessageHandlerFake.StatusCode = HttpStatusCode.BadRequest;
+        if (_cohereStepDefinitions._client != null && _cohereStepDefinitions._httpMessageHandlerFake != null)
+        {
+            _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleChatResponses.GetChatResponse(invalidCase);
+            _cohereStepDefinitions._httpMessageHandlerFake.StatusCode = HttpStatusCode.BadRequest;
 
-        if (invalidCase == "InvalidSafetyMode")
-        {
-            _cohereStepDefinitions._httpMessageHandlerFake.StatusCode = HttpStatusCode.UnprocessableEntity;
+            if (invalidCase == "InvalidSafetyMode")
+            {
+                _cohereStepDefinitions._httpMessageHandlerFake.StatusCode = HttpStatusCode.UnprocessableEntity;
+            }
+            
+            try
+            {
+                _chatResponse = await _cohereStepDefinitions._client.ChatAsync(SampleChatRequests.GetChatRequest(invalidCase));
+            }
+            catch (Exception ex)
+            {
+                _caughtException = ex;
+            }
         }
-
-        try
+        else
         {
-            _chatResponse = await _cohereStepDefinitions._client.ChatAsync(SampleChatRequests.GetChatRequest(invalidCase));
-        }
-        catch (Exception ex)
-        {
-            _caughtException = ex;
+            throw new InvalidOperationException("Client is not initialized.");
         }
     }
 

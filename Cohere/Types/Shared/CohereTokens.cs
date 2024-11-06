@@ -1,4 +1,4 @@
-namespace Cohere.Types;
+namespace Cohere.Types.Shared;
 
 /// <summary>
 /// The number of tokens used as input to the model and the number of tokens produced by the model

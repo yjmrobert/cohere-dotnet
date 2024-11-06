@@ -1,4 +1,4 @@
-namespace Cohere.Types;
+namespace Cohere.Types.Rerank;
 
 /// <summary>
 /// The result of a reranking operation

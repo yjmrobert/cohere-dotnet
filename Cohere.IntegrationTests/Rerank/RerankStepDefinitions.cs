@@ -1,4 +1,5 @@
-using Cohere.Types;
+using Cohere.Types.Rerank;
+using Cohere.Types.Shared;
 using Cohere.SampleRequestsAndResponses;
 using Reqnroll;
 using Xunit;
@@ -30,7 +31,14 @@ public class RerankStepDefinitions
     [When(@"I send a valid rerank request with ""(.*)""")]
     public async Task WhenISendAValidRerankRequestWith(string testCase)
     {
-        _rerankResponse = await _cohereStepDefinitions._client.RerankAsync(SampleRerankRequests.GetRerankRequest(testCase));
+        if (_cohereStepDefinitions._client != null)
+        {
+            _rerankResponse = await _cohereStepDefinitions._client.RerankAsync(SampleRerankRequests.GetRerankRequest(testCase));
+        }
+        else
+        {
+            throw new InvalidOperationException("Client is not initialized.");
+        }
     }
 
     /// <summary>
@@ -41,7 +49,14 @@ public class RerankStepDefinitions
     {
         try
         {
-            _rerankResponse = await _cohereStepDefinitions._client.RerankAsync(SampleRerankRequests.GetRerankRequest(invalidCase));
+            if (_cohereStepDefinitions._client != null)
+            {
+                _rerankResponse = await _cohereStepDefinitions._client.RerankAsync(SampleRerankRequests.GetRerankRequest(invalidCase));
+            }
+            else
+            {
+                throw new InvalidOperationException("Client is not initialized.");
+            }
         }
         catch (Exception ex)
         {

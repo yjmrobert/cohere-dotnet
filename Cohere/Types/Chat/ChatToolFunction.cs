@@ -1,4 +1,4 @@
-namespace Cohere.Types;
+namespace Cohere.Types.Chat;
 
 /// <summary>
 /// A function to be executed by the chat tool

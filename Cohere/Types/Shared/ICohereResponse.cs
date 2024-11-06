@@ -1,4 +1,4 @@
-namespace Cohere.Types;
+namespace Cohere.Types.Shared;
 
 /// <summary>
 /// The interface for Cohere responses

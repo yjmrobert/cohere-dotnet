@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 using Cohere.CustomJsonConverters;
 
-namespace Cohere.Types;
+namespace Cohere.Types.Chat;
 
 /// <summary>
 /// ChatMessage object that represents a message in a conversation with the model

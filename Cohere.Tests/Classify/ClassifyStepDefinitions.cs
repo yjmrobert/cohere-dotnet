@@ -1,4 +1,5 @@
-using Cohere.Types;
+using Cohere.Types.Classify;
+using Cohere.Types.Shared;
 using Cohere.SampleRequestsAndResponses;
 using Reqnroll;
 using Xunit;
@@ -31,8 +32,15 @@ public class ClassifyStepDefinitions
     [When(@"I send a valid classify request with ""(.*)""")]
     public async Task WhenISendAValidClassifyRequestWith(string testCase)
     {
-        _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleClassifyResponses.GetClassifyResponse(testCase);
-        _classifyResponse = await _cohereStepDefinitions._client.ClassifyAsync(SampleClassifyRequests.GetClassifyRequest(testCase));
+        if (_cohereStepDefinitions._client != null && _cohereStepDefinitions._httpMessageHandlerFake != null)
+        {
+            _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleClassifyResponses.GetClassifyResponse(testCase);
+            _classifyResponse = await _cohereStepDefinitions._client.ClassifyAsync(SampleClassifyRequests.GetClassifyRequest(testCase));
+        }
+        else
+        {
+            throw new InvalidOperationException("Client is not initialized.");
+        }
     }
 
     /// <summary>
@@ -79,25 +87,32 @@ public class ClassifyStepDefinitions
     [When(@"I send an invalid classify request with ""(.*)""")]
     public async Task WhenISendAnInvalidClassifyRequestWith(string invalidCase)
     {
-        _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleClassifyResponses.GetClassifyResponse(invalidCase);
-        _cohereStepDefinitions._httpMessageHandlerFake.StatusCode = HttpStatusCode.BadRequest;
+        if (_cohereStepDefinitions._client != null && _cohereStepDefinitions._httpMessageHandlerFake != null)
+        {
+            _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleClassifyResponses.GetClassifyResponse(invalidCase);
+            _cohereStepDefinitions._httpMessageHandlerFake.StatusCode = HttpStatusCode.BadRequest;
 
-        if (invalidCase == "UnknownTruncate")
-        {
-            _cohereStepDefinitions._httpMessageHandlerFake.StatusCode = HttpStatusCode.UnprocessableEntity;
+            if (invalidCase == "UnknownTruncate")
+            {
+                _cohereStepDefinitions._httpMessageHandlerFake.StatusCode = HttpStatusCode.UnprocessableEntity;
+            }
+            else if (invalidCase == "HighVolumeRequest")
+            {
+                _cohereStepDefinitions._httpMessageHandlerFake.StatusCode = HttpStatusCode.RequestEntityTooLarge;
+            }
+            
+            try
+            {
+                _classifyResponse = await _cohereStepDefinitions._client.ClassifyAsync(SampleClassifyRequests.GetClassifyRequest(invalidCase));
+            }
+            catch (Exception ex)
+            {
+                _caughtException = ex;
+            }
         }
-        else if (invalidCase == "HighVolumeRequest")
+        else
         {
-            _cohereStepDefinitions._httpMessageHandlerFake.StatusCode = HttpStatusCode.RequestEntityTooLarge;
-        }
-
-        try
-        {
-            _classifyResponse = await _cohereStepDefinitions._client.ClassifyAsync(SampleClassifyRequests.GetClassifyRequest(invalidCase));
-        }
-        catch (Exception ex)
-        {
-            _caughtException = ex;
+            throw new InvalidOperationException("Client is not initialized.");
         }
     }
 

@@ -1,4 +1,5 @@
-using Cohere.Types;
+using Cohere.Types.Rerank;
+using Cohere.Types.Shared;
 using Cohere.SampleRequestsAndResponses;
 using Reqnroll;
 using Xunit;
@@ -31,8 +32,15 @@ public class RerankStepDefinitions
     [When(@"I send a valid rerank request with ""(.*)""")]
     public async Task WhenISendAValidRerankRequestWith(string testCase)
     {
-        _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleRerankResponses.GetRerankResponse(testCase);
-        _rerankResponse = await _cohereStepDefinitions._client.RerankAsync(SampleRerankRequests.GetRerankRequest(testCase));
+        if (_cohereStepDefinitions._client != null && _cohereStepDefinitions._httpMessageHandlerFake != null)
+        {
+            _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleRerankResponses.GetRerankResponse(testCase);
+            _rerankResponse = await _cohereStepDefinitions._client.RerankAsync(SampleRerankRequests.GetRerankRequest(testCase));
+        }
+        else
+        {
+            throw new InvalidOperationException("Client is not initialized.");
+        }
     }
 
     /// <summary>
@@ -41,16 +49,23 @@ public class RerankStepDefinitions
     [When(@"I send an invalid rerank request with ""(.*)""")]
     public async Task WhenISendAnInvalidRerankRequestWith(string invalidCase)
     {
-        _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleRerankResponses.GetRerankResponse(invalidCase);
-        _cohereStepDefinitions._httpMessageHandlerFake.StatusCode = HttpStatusCode.BadRequest;
-
-        try
+        if (_cohereStepDefinitions._client != null && _cohereStepDefinitions._httpMessageHandlerFake != null)
         {
-            _rerankResponse = await _cohereStepDefinitions._client.RerankAsync(SampleRerankRequests.GetRerankRequest(invalidCase));
+            _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleRerankResponses.GetRerankResponse(invalidCase);
+            _cohereStepDefinitions._httpMessageHandlerFake.StatusCode = HttpStatusCode.BadRequest;
+            
+            try
+            {
+                _rerankResponse = await _cohereStepDefinitions._client.RerankAsync(SampleRerankRequests.GetRerankRequest(invalidCase));
+            }
+            catch (Exception ex)
+            {
+                _caughtException = ex;
+            }
         }
-        catch (Exception ex)
+        else
         {
-            _caughtException = ex;
+            throw new InvalidOperationException("Client is not initialized.");
         }
     }
 

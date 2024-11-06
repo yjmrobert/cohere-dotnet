@@ -1,4 +1,6 @@
-namespace Cohere.Types;
+using Cohere.Types.Shared;
+
+namespace Cohere.Types.Classify;
 
 /// <summary>
 /// The object received from the classify endpoint

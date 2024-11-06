@@ -1,4 +1,4 @@
-namespace Cohere.Types;
+namespace Cohere.Types.Classify;
 
 /// <summary>
 /// A class representing the classification of a text

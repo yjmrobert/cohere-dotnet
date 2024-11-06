@@ -1,4 +1,7 @@
-﻿using Cohere.Types;
+﻿using Cohere.Types.Chat;
+using Cohere.Types.Classify;
+using Cohere.Types.Rerank;
+using Cohere.Types.Shared;
 using Polly;
 using Polly.Extensions.Http;
 using System.Net.Http.Headers;
@@ -55,7 +58,7 @@ public class CohereClient: IDisposable
     {
         ArgumentNullException.ThrowIfNull(chatRequest);
 
-        var response = await SendRequestAsync("chat", chatRequest);
+        var response = await SendRequestAsync(CohereEndpointsEnum.Chat, chatRequest);
 
         return (ChatResponse) response;
     }
@@ -69,7 +72,7 @@ public class CohereClient: IDisposable
     {
         ArgumentNullException.ThrowIfNull(classifyRequest);
 
-        var response = await SendRequestAsync("classify", classifyRequest);
+        var response = await SendRequestAsync(CohereEndpointsEnum.Classify, classifyRequest);
 
         return (ClassifyResponse) response;
     }
@@ -83,7 +86,7 @@ public class CohereClient: IDisposable
     {
         ArgumentNullException.ThrowIfNull(rerankRequest);
 
-        var response = await SendRequestAsync("rerank", rerankRequest);
+        var response = await SendRequestAsync(CohereEndpointsEnum.Rerank, rerankRequest);
 
         return (RerankResponse) response;
     }
@@ -94,18 +97,19 @@ public class CohereClient: IDisposable
     /// <param name="endpoint"> The endpoint to send the request to </param>
     /// <param name="requestBody"> The request body to send to the API </param>
     /// <returns> The response from the API as an ICohereResponse object </returns> 
-    private async Task<ICohereResponse> SendRequestAsync(string endpoint, ICohereRequest requestBody)
+    private async Task<ICohereResponse> SendRequestAsync(CohereEndpointsEnum endpoint, ICohereRequest requestBody)
     {
         var serializedRequest = endpoint switch
         {
-            "chat" => JsonSerializer.Serialize((ChatRequest)requestBody, _jsonSerializerOptions),
-            "classify" => JsonSerializer.Serialize((ClassifyRequest)requestBody, _jsonSerializerOptions),
-            "rerank" => JsonSerializer.Serialize((RerankRequest)requestBody, _jsonSerializerOptions),
+            CohereEndpointsEnum.Chat => JsonSerializer.Serialize((ChatRequest)requestBody, _jsonSerializerOptions),
+            CohereEndpointsEnum.Classify => JsonSerializer.Serialize((ClassifyRequest)requestBody, _jsonSerializerOptions),
+            CohereEndpointsEnum.Rerank => JsonSerializer.Serialize((RerankRequest)requestBody, _jsonSerializerOptions),
             _ => throw new InvalidOperationException("Invalid endpoint provided."),
         };
 
         var response = await GetRetryPolicy().ExecuteAsync(async () => {
-            var request = new HttpRequestMessage(HttpMethod.Post, $"https://api.cohere.ai/v2/{endpoint}")
+            var request = new HttpRequestMessage(HttpMethod.Post, $"https://api.cohere.ai/v2/{endpoint.ToString().ToLower()}")
+
             {
                 Content = new StringContent(serializedRequest, Encoding.UTF8, new MediaTypeHeaderValue("application/json"))
             };
@@ -128,8 +132,8 @@ public class CohereClient: IDisposable
             }
             catch (JsonException)
             {
-                errorMessage = "Failed to parse error response.";
-                errorDetails = responseContent;
+                errorMessage = responseContent;
+                errorDetails = string.Empty;
             }
 
             throw new CohereApiException(response.StatusCode, endpoint, errorMessage, errorDetails);
@@ -137,9 +141,9 @@ public class CohereClient: IDisposable
 
         ICohereResponse result = endpoint switch
         {
-            "chat" => DeserializeResponse<ChatResponse>(responseContent),
-            "classify" => DeserializeResponse<ClassifyResponse>(responseContent),
-            "rerank" => DeserializeResponse<RerankResponse>(responseContent),
+            CohereEndpointsEnum.Chat => DeserializeResponse<ChatResponse>(responseContent),
+            CohereEndpointsEnum.Classify => DeserializeResponse<ClassifyResponse>(responseContent),
+            CohereEndpointsEnum.Rerank => DeserializeResponse<RerankResponse>(responseContent),
             _ => throw new InvalidOperationException("Invalid endpoint provided.")
         };
 

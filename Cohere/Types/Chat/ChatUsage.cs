@@ -1,4 +1,6 @@
-namespace Cohere.Types;
+using Cohere.Types.Shared;
+
+namespace Cohere.Types.Chat;
 
 /// <summary>
 /// Summary of usage for a chat request and response

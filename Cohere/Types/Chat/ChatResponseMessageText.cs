@@ -1,4 +1,4 @@
-namespace Cohere.Types;
+namespace Cohere.Types.Chat;
 
 /// <summary>
 /// A text message in the content of a chat response

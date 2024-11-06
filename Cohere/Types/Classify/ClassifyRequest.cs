@@ -1,4 +1,6 @@
-namespace Cohere.Types;
+using Cohere.Types.Shared;
+
+namespace Cohere.Types.Classify;
 
 /// <summary>
 /// The object to be sent to the classify endpoint
@@ -22,7 +24,7 @@ public class ClassifyRequest: ICohereRequest
     /// <summary>
     /// The model to use for text classification
     /// </summary>
-    public string? Model { get; set; } = "embed-english-v2.0";
+    public string? Model { get; set; } = CohereDefaultModelNames.DefaultClassifyModel;
 
     /// <summary>
     /// The ID of a custom playground preset

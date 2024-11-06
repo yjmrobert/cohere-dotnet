@@ -1,4 +1,4 @@
-namespace Cohere.Types;
+namespace Cohere.Types.Classify;
 
 /// <summary>
 /// Option to specify how the API will handle inputs longer than the maximum token length

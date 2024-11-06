@@ -1,6 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Cohere.Types;
+using Cohere.Types.Chat;
 
 namespace Cohere.CustomJsonConverters;
 

@@ -1,4 +1,4 @@
-namespace Cohere.Types;
+namespace Cohere.Types.Shared;
 
 /// <summary>
 ///  Meta information about the request and response

@@ -1,4 +1,4 @@
-namespace Cohere.Types;
+namespace Cohere.Types.Shared;
 
 /// <summary>
 /// Summary of the billed units for a request and response

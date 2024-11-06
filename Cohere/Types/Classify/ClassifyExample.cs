@@ -1,4 +1,4 @@
-namespace Cohere.Types;
+namespace Cohere.Types.Classify;
 
 /// <summary>
 /// The model to define an example for classification training

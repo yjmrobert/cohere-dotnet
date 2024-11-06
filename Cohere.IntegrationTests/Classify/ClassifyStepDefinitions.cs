@@ -1,4 +1,5 @@
-using Cohere.Types;
+using Cohere.Types.Classify;
+using Cohere.Types.Shared;
 using Cohere.SampleRequestsAndResponses;
 using Reqnroll;
 using Xunit;
@@ -30,7 +31,14 @@ public class ClassifyStepDefinitions
     [When(@"I send a valid classify request with ""(.*)""")]
     public async Task WhenISendAValidClassifyRequestWith(string testCase)
     {
-        _classifyResponse = await _cohereStepDefinitions._client.ClassifyAsync(SampleClassifyRequests.GetClassifyRequest(testCase));
+        if (_cohereStepDefinitions._client != null)
+        {
+            _classifyResponse = await _cohereStepDefinitions._client.ClassifyAsync(SampleClassifyRequests.GetClassifyRequest(testCase));
+        }
+        else
+        {
+            throw new InvalidOperationException("Client is not initialized.");
+        }
     }
 
     /// <summary>
@@ -79,7 +87,14 @@ public class ClassifyStepDefinitions
     {
         try
         {
-            _classifyResponse = await _cohereStepDefinitions._client.ClassifyAsync(SampleClassifyRequests.GetClassifyRequest(invalidCase));
+            if (_cohereStepDefinitions._client != null)
+            {
+                _classifyResponse = await _cohereStepDefinitions._client.ClassifyAsync(SampleClassifyRequests.GetClassifyRequest(invalidCase));
+            }
+            else
+            {
+                throw new InvalidOperationException("Client is not initialized.");
+            }
         }
         catch (Exception ex)
         {

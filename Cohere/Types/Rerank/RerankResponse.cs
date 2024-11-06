@@ -1,4 +1,6 @@
-namespace Cohere.Types;
+using Cohere.Types.Shared;
+
+namespace Cohere.Types.Rerank;
 
 /// <summary>
 ///  The object received from the rerank endpoint

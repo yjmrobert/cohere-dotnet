@@ -1,5 +1,7 @@
+using Cohere.Types.Shared;
 
-namespace Cohere.Types;
+
+namespace Cohere.Types.Rerank;
 
 /// <summary>
 /// The object to be sent to the rerank endpoint
@@ -11,7 +13,7 @@ public class RerankRequest: ICohereRequest
     /// <summary>
     /// The model to use for text reranking
     /// </summary>
-    public string? Model { get; set; } = "rerank-english-v3.0";
+    public string? Model { get; set; } = CohereDefaultModelNames.DefaultRerankModel;
 
     /// <summary>
     /// The query to use for text reranking

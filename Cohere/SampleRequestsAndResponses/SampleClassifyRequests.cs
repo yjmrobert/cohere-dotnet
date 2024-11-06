@@ -1,4 +1,4 @@
-using Cohere.Types;
+using Cohere.Types.Classify;
 
 namespace Cohere.SampleRequestsAndResponses;
 

@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace Cohere.Types;
+namespace Cohere.Types.Shared;
 
 /// <summary>
 /// Exception thrown when an error occurs while interacting with the Cohere API
@@ -15,7 +15,7 @@ public class CohereApiException : Exception
     /// <summary>
     /// The endpoint that the error occurred on
     /// </summary>
-    public string Endpoint { get; }
+    public CohereEndpointsEnum Endpoint { get; }
 
     /// <summary>
     /// The details of the error that occurred
@@ -25,7 +25,7 @@ public class CohereApiException : Exception
     /// <summary>
     /// Initializes a new instance of the CohereApiException class
     /// </summary>
-    public CohereApiException(HttpStatusCode statusCode, string endpoint, string message, string errorDetails)
+    public CohereApiException(HttpStatusCode statusCode, CohereEndpointsEnum endpoint, string message, string errorDetails)
         : base($"Error from Cohere API: {message}")
     {
         StatusCode = statusCode;
