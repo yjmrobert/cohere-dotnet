@@ -39,6 +39,5 @@ public class ChatMessage
     /// <summary>
     /// A list of citations that the model has generated
     /// </summary>
-    /// TO DO: Handle parsing various citation object types
     public List<object>? Citations { get; set; }
 }

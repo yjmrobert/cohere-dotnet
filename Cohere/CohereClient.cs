@@ -1,6 +1,4 @@
-﻿using Cohere.CustomJsonConverters;
-using Cohere.SampleRequestsAndResponses;
-using Cohere.Types;
+﻿using Cohere.Types;
 using Polly;
 using Polly.Extensions.Http;
 using System.Net.Http.Headers;
