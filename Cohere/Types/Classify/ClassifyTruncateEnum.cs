@@ -8,15 +8,15 @@ public enum ClassifyTruncateEnum
     /// <summary>
     /// Truncate the input to the maximum token length
     /// </summary>
-    NONE,
+    NONE = 0,
 
     /// <summary>
     /// Discard the start of the input to fit the maximum token length
     /// </summary>
-    START,
+    START = 1,
 
     /// <summary>
     /// Discard the end of the input to fit the maximum token length
     /// </summary>
-    END
+    END = 2
 }

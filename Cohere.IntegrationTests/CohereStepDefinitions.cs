@@ -11,9 +11,9 @@ namespace Cohere.IntegrationTests;
 /// </summary>
 public partial class CohereStepDefinitions
 {
-    protected  CohereClient? _client;
-    protected readonly ITestOutputHelper? _output;
-    protected Exception? _caughtException;
+    private  CohereClient? _client;
+    private readonly ITestOutputHelper? _output;
+    private Exception? _caughtException;
 
     public CohereStepDefinitions(ITestOutputHelper output)
     {

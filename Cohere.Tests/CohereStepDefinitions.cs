@@ -11,11 +11,11 @@ namespace Cohere.Tests;
 /// </summary>
 public partial class CohereStepDefinitions
 {
-    protected CohereClient? _client;
-    protected CohereHttpClientFake? _httpMessageHandlerFake;
-    protected readonly ITestOutputHelper? _output;
+    private CohereClient? _client;
+    private CohereHttpClientFake? _httpMessageHandlerFake;
+    private readonly ITestOutputHelper? _output;
     private readonly string _apiKey = "test-api-key";
-    protected Exception? _caughtException;
+    private Exception? _caughtException;
     
     /// <summary>
     /// Verifies that an API key is available for testing
