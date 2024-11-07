@@ -1,5 +1,6 @@
 using Reqnroll;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Cohere.IntegrationTests;
 
@@ -8,9 +9,16 @@ namespace Cohere.IntegrationTests;
 /// <summary>
 /// Defines the step definitions used by all Cohere integration tests
 /// </summary>
-public class CohereStepDefinitions
+public partial class CohereStepDefinitions
 {
-    public CohereClient? _client;
+    protected  CohereClient? _client;
+    protected readonly ITestOutputHelper? _output;
+    protected Exception? _caughtException;
+
+    public CohereStepDefinitions(ITestOutputHelper output)
+    {
+        _output = output;
+    }
     
     /// <summary>
     /// Verifies that an API key is available for testing

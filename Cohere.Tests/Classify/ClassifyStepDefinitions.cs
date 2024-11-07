@@ -4,27 +4,15 @@ using Cohere.SampleRequestsAndResponses;
 using Reqnroll;
 using Xunit;
 using System.Net;
-using Xunit.Abstractions;
 
-namespace Cohere.Tests.Classify;
-
-[Binding, Scope(Feature = "Classify")]
+namespace Cohere.Tests;
 
 /// <summary>
 /// Step definitions for the Classify feature
 /// </summary>
-public class ClassifyStepDefinitions
+public partial class CohereStepDefinitions
 {
-    private readonly CohereStepDefinitions _cohereStepDefinitions;
     private ClassifyResponse? _classifyResponse;
-    private Exception? _caughtException;
-    private readonly ITestOutputHelper _output;
-
-    public ClassifyStepDefinitions(CohereStepDefinitions cohereStepDefinitions, ITestOutputHelper output)
-    {
-        _cohereStepDefinitions = cohereStepDefinitions;
-        _output = output;
-    }
 
     /// <summary>
     /// Sends a valid classify request with various configurations to the mocked Cohere API endpoint
@@ -32,10 +20,10 @@ public class ClassifyStepDefinitions
     [When(@"I send a valid classify request with ""(.*)""")]
     public async Task WhenISendAValidClassifyRequestWith(string testCase)
     {
-        if (_cohereStepDefinitions._client != null && _cohereStepDefinitions._httpMessageHandlerFake != null)
+        if (_client != null && _httpMessageHandlerFake != null)
         {
-            _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleClassifyResponses.GetClassifyResponse(testCase);
-            _classifyResponse = await _cohereStepDefinitions._client.ClassifyAsync(SampleClassifyRequests.GetClassifyRequest(testCase));
+            _httpMessageHandlerFake.ResponseContent = SampleClassifyResponses.GetClassifyResponse(testCase);
+            _classifyResponse = await _client.ClassifyAsync(SampleClassifyRequests.GetClassifyRequest(testCase));
         }
         else
         {
@@ -87,23 +75,23 @@ public class ClassifyStepDefinitions
     [When(@"I send an invalid classify request with ""(.*)""")]
     public async Task WhenISendAnInvalidClassifyRequestWith(string invalidCase)
     {
-        if (_cohereStepDefinitions._client != null && _cohereStepDefinitions._httpMessageHandlerFake != null)
+        if (_client != null && _httpMessageHandlerFake != null)
         {
-            _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleClassifyResponses.GetClassifyResponse(invalidCase);
-            _cohereStepDefinitions._httpMessageHandlerFake.StatusCode = HttpStatusCode.BadRequest;
+            _httpMessageHandlerFake.ResponseContent = SampleClassifyResponses.GetClassifyResponse(invalidCase);
+            _httpMessageHandlerFake.StatusCode = HttpStatusCode.BadRequest;
 
             if (invalidCase == "UnknownTruncate")
             {
-                _cohereStepDefinitions._httpMessageHandlerFake.StatusCode = HttpStatusCode.UnprocessableEntity;
+                _httpMessageHandlerFake.StatusCode = HttpStatusCode.UnprocessableEntity;
             }
             else if (invalidCase == "HighVolumeRequest")
             {
-                _cohereStepDefinitions._httpMessageHandlerFake.StatusCode = HttpStatusCode.RequestEntityTooLarge;
+                _httpMessageHandlerFake.StatusCode = HttpStatusCode.RequestEntityTooLarge;
             }
             
             try
             {
-                _classifyResponse = await _cohereStepDefinitions._client.ClassifyAsync(SampleClassifyRequests.GetClassifyRequest(invalidCase));
+                _classifyResponse = await _client.ClassifyAsync(SampleClassifyRequests.GetClassifyRequest(invalidCase));
             }
             catch (Exception ex)
             {
@@ -119,11 +107,11 @@ public class ClassifyStepDefinitions
     /// <summary>
     /// Verifies that an error response is received from the mocked Cohere API
     /// </summary>
-    [Then(@"I should receive an error response")]
-    public void ThenIShouldReceiveAnErrorResponse()
+    [Then(@"I should receive a classify error response")]
+    public void ThenIShouldReceiveAClassifyErrorResponse()
     {
         Assert.NotNull(_caughtException);
         Assert.IsType<CohereApiException>(_caughtException);
-        _output.WriteLine(_caughtException.ToString());
+        _output?.WriteLine(_caughtException.ToString());
     }
 }

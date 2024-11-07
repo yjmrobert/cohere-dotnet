@@ -182,7 +182,7 @@ namespace Cohere.IntegrationTests.Chat
     await testRunner.WhenAsync(string.Format("I send an invalid chat request with \"{0}\"", invalidCase), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 28
-    await testRunner.ThenAsync("I should receive an error response", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("I should receive a chat error response", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

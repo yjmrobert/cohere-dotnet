@@ -4,28 +4,15 @@ using Cohere.SampleRequestsAndResponses;
 using Reqnroll;
 using Xunit;
 using System.Net;
-using Xunit.Abstractions;
 
-namespace Cohere.Tests.Chat;
-
-[Binding, Scope(Feature = "Chat")]
+namespace Cohere.Tests;
 
 /// <summary>
 /// Step definitions for the Chat feature
 /// </summary>
-public class ChatStepDefinitions
+public partial class CohereStepDefinitions
 {
-    private readonly CohereStepDefinitions _cohereStepDefinitions;
     private ChatResponse? _chatResponse;
-    private Exception? _caughtException;
-    private readonly ITestOutputHelper _output;
-
-    
-    public ChatStepDefinitions(CohereStepDefinitions cohereStepDefinitions, ITestOutputHelper output)
-    {
-        _cohereStepDefinitions = cohereStepDefinitions;
-        _output = output;
-    }
 
     /// <summary>
     /// Sends a valid chat request with various configurations to the mocked Cohere API endpoint
@@ -33,10 +20,10 @@ public class ChatStepDefinitions
     [When(@"I send a valid chat request with ""(.*)""")]
     public async Task WhenISendAValidChatRequestWith(string testCase)
     {
-        if (_cohereStepDefinitions._client != null && _cohereStepDefinitions._httpMessageHandlerFake != null)
+        if (_client != null && _httpMessageHandlerFake != null)
         {
-            _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleChatResponses.GetChatResponse(testCase);
-            _chatResponse = await _cohereStepDefinitions._client.ChatAsync(SampleChatRequests.GetChatRequest(testCase));
+            _httpMessageHandlerFake.ResponseContent = SampleChatResponses.GetChatResponse(testCase);
+            _chatResponse = await _client.ChatAsync(SampleChatRequests.GetChatRequest(testCase));
         }
         else
         {
@@ -75,19 +62,19 @@ public class ChatStepDefinitions
     [When(@"I send an invalid chat request with ""(.*)""")]
     public async Task WhenISendAnInvalidChatRequestWith(string invalidCase)
     {
-        if (_cohereStepDefinitions._client != null && _cohereStepDefinitions._httpMessageHandlerFake != null)
+        if (_client != null && _httpMessageHandlerFake != null)
         {
-            _cohereStepDefinitions._httpMessageHandlerFake.ResponseContent = SampleChatResponses.GetChatResponse(invalidCase);
-            _cohereStepDefinitions._httpMessageHandlerFake.StatusCode = HttpStatusCode.BadRequest;
+            _httpMessageHandlerFake.ResponseContent = SampleChatResponses.GetChatResponse(invalidCase);
+            _httpMessageHandlerFake.StatusCode = HttpStatusCode.BadRequest;
 
             if (invalidCase == "InvalidSafetyMode")
             {
-                _cohereStepDefinitions._httpMessageHandlerFake.StatusCode = HttpStatusCode.UnprocessableEntity;
+                _httpMessageHandlerFake.StatusCode = HttpStatusCode.UnprocessableEntity;
             }
             
             try
             {
-                _chatResponse = await _cohereStepDefinitions._client.ChatAsync(SampleChatRequests.GetChatRequest(invalidCase));
+                _chatResponse = await _client.ChatAsync(SampleChatRequests.GetChatRequest(invalidCase));
             }
             catch (Exception ex)
             {
@@ -103,11 +90,11 @@ public class ChatStepDefinitions
     /// <summary>
     /// Verifies that an error response is received from the mocked Cohere API
     /// </summary>
-    [Then(@"I should receive an error response")]
+    [Then(@"I should receive a chat error response")]
     public void ThenIShouldReceiveAnErrorResponse()
     {
         Assert.NotNull(_caughtException);
         Assert.IsType<CohereApiException>(_caughtException);
-        _output.WriteLine(_caughtException.ToString());
+        _output?.WriteLine(_caughtException.ToString());
     }
 }

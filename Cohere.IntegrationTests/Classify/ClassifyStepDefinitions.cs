@@ -3,27 +3,15 @@ using Cohere.Types.Shared;
 using Cohere.SampleRequestsAndResponses;
 using Reqnroll;
 using Xunit;
-using Xunit.Abstractions;
 
-namespace Cohere.IntegrationTests.Classify;
-
-[Binding, Scope(Feature = "Classify Integration")]
+namespace Cohere.IntegrationTests;
 
 /// <summary>
 /// Step definitions for the Classify feature
 /// </summary>
-public class ClassifyStepDefinitions
+public partial class CohereStepDefinitions
 {
-    private readonly CohereStepDefinitions _cohereStepDefinitions;
     private ClassifyResponse? _classifyResponse;
-    private Exception? _caughtException;
-    private readonly ITestOutputHelper _output;
-
-    public ClassifyStepDefinitions(CohereStepDefinitions cohereStepDefinitions, ITestOutputHelper output)
-    {
-        _cohereStepDefinitions = cohereStepDefinitions;
-        _output = output;
-    }
 
    /// <summary>
     /// Sends a valid classify request with various configurations to the Cohere API endpoint
@@ -31,9 +19,9 @@ public class ClassifyStepDefinitions
     [When(@"I send a valid classify request with ""(.*)""")]
     public async Task WhenISendAValidClassifyRequestWith(string testCase)
     {
-        if (_cohereStepDefinitions._client != null)
+        if (_client != null)
         {
-            _classifyResponse = await _cohereStepDefinitions._client.ClassifyAsync(SampleClassifyRequests.GetClassifyRequest(testCase));
+            _classifyResponse = await _client.ClassifyAsync(SampleClassifyRequests.GetClassifyRequest(testCase));
         }
         else
         {
@@ -87,9 +75,9 @@ public class ClassifyStepDefinitions
     {
         try
         {
-            if (_cohereStepDefinitions._client != null)
+            if (_client != null)
             {
-                _classifyResponse = await _cohereStepDefinitions._client.ClassifyAsync(SampleClassifyRequests.GetClassifyRequest(invalidCase));
+                _classifyResponse = await _client.ClassifyAsync(SampleClassifyRequests.GetClassifyRequest(invalidCase));
             }
             else
             {
@@ -105,11 +93,11 @@ public class ClassifyStepDefinitions
     /// <summary>
     /// Verifies that an error response is received from the Cohere API
     /// </summary>
-    [Then(@"I should receive an error response")]
-    public void ThenIShouldReceiveAnErrorResponse()
+    [Then(@"I should receive a classify error response")]
+    public void ThenIShouldReceiveAClassifyErrorResponse()
     {
         Assert.NotNull(_caughtException);
         Assert.IsType<CohereApiException>(_caughtException);
-        _output.WriteLine(_caughtException.ToString());
+        _output?.WriteLine(_caughtException.ToString());
     }
 }

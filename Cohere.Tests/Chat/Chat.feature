@@ -24,7 +24,7 @@ Feature: Chat
   @InvalidRequests
   Scenario Outline: Send an invalid chat request with incorrect settings
     When I send an invalid chat request with "<InvalidCase>"
-    Then I should receive an error response
+    Then I should receive a chat error response
 
     Examples:
       | InvalidCase                 |

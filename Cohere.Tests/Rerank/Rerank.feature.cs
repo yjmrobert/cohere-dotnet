@@ -179,7 +179,7 @@ namespace Cohere.Tests.Rerank
     await testRunner.WhenAsync(string.Format("I send an invalid rerank request with \"{0}\"", invalidCase), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 26
-    await testRunner.ThenAsync("I should receive an error response", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("I should receive a rerank error response", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

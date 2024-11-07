@@ -24,7 +24,7 @@ Feature: Rerank Integration
   @InvalidRequests
   Scenario Outline: Send an invalid rerank request with incorrect settings
     When I send an invalid rerank request with "<InvalidCase>"
-    Then I should receive an error response
+    Then I should receive a rerank error response
 
     Examples:
       | InvalidCase             |

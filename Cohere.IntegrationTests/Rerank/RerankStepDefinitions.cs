@@ -3,27 +3,15 @@ using Cohere.Types.Shared;
 using Cohere.SampleRequestsAndResponses;
 using Reqnroll;
 using Xunit;
-using Xunit.Abstractions;
 
-namespace Cohere.IntegrationTests.Rerank;
-
-[Binding, Scope(Feature = "Rerank Integration")]
+namespace Cohere.IntegrationTests;
 
 /// <summary>
 /// Step definitions for the Rerank feature
 /// </summary>
-public class RerankStepDefinitions
+public partial class CohereStepDefinitions
 {
-    private readonly CohereStepDefinitions _cohereStepDefinitions;
     private RerankResponse? _rerankResponse;
-    private Exception? _caughtException;
-    private readonly ITestOutputHelper _output;
-
-    public RerankStepDefinitions(CohereStepDefinitions cohereStepDefinitions, ITestOutputHelper output)
-    {
-        _cohereStepDefinitions = cohereStepDefinitions;
-        _output = output;
-    }
 
     /// <summary>
     /// Sends a valid rerank request with various configurations to the Cohere API endpoint
@@ -31,9 +19,9 @@ public class RerankStepDefinitions
     [When(@"I send a valid rerank request with ""(.*)""")]
     public async Task WhenISendAValidRerankRequestWith(string testCase)
     {
-        if (_cohereStepDefinitions._client != null)
+        if (_client != null)
         {
-            _rerankResponse = await _cohereStepDefinitions._client.RerankAsync(SampleRerankRequests.GetRerankRequest(testCase));
+            _rerankResponse = await _client.RerankAsync(SampleRerankRequests.GetRerankRequest(testCase));
         }
         else
         {
@@ -49,9 +37,9 @@ public class RerankStepDefinitions
     {
         try
         {
-            if (_cohereStepDefinitions._client != null)
+            if (_client != null)
             {
-                _rerankResponse = await _cohereStepDefinitions._client.RerankAsync(SampleRerankRequests.GetRerankRequest(invalidCase));
+                _rerankResponse = await _client.RerankAsync(SampleRerankRequests.GetRerankRequest(invalidCase));
             }
             else
             {
@@ -83,11 +71,11 @@ public class RerankStepDefinitions
     /// <summary>
     /// Verifies that an error response is received for an invalid rerank request
     /// </summary>
-    [Then(@"I should receive an error response")]
-    public void ThenIShouldReceiveAnErrorResponse()
+    [Then(@"I should receive a rerank error response")]
+    public void ThenIShouldReceiveARerankErrorResponse()
     {
         Assert.NotNull(_caughtException);
         Assert.IsType<CohereApiException>(_caughtException);
-        _output.WriteLine(_caughtException.ToString());
+        _output?.WriteLine(_caughtException.ToString());
     }
 }

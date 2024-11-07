@@ -3,27 +3,15 @@ using Cohere.Types.Shared;
 using Cohere.SampleRequestsAndResponses;
 using Reqnroll;
 using Xunit;
-using Xunit.Abstractions;
 
-namespace Cohere.IntegrationTests.Chat;
-
-[Binding, Scope(Feature = "Chat Integration")]
+namespace Cohere.IntegrationTests;
 
 /// <summary>
 /// Step definitions for the Chat feature
 /// </summary>
-public class ChatStepDefinitions
+public partial class CohereStepDefinitions
 {
-    private readonly CohereStepDefinitions _cohereStepDefinitions;
     private ChatResponse? _chatResponse;
-    private Exception? _caughtException;
-    private readonly ITestOutputHelper _output;
-    
-    public ChatStepDefinitions(CohereStepDefinitions cohereStepDefinitions, ITestOutputHelper output)
-    {
-        _cohereStepDefinitions = cohereStepDefinitions;
-        _output = output;
-    }
 
     /// <summary>
     /// Sends a valid chat request with various configurations to the Cohere API endpoint
@@ -31,9 +19,9 @@ public class ChatStepDefinitions
     [When(@"I send a valid chat request with ""(.*)""")]
     public async Task WhenISendAValidChatRequestWith(string testCase)
     {
-        if (_cohereStepDefinitions._client != null)
+        if (_client != null)
         {
-            _chatResponse = await _cohereStepDefinitions._client.ChatAsync(SampleChatRequests.GetChatRequest(testCase));
+            _chatResponse = await _client.ChatAsync(SampleChatRequests.GetChatRequest(testCase));
         }
         else
         {
@@ -74,9 +62,9 @@ public class ChatStepDefinitions
     {
         try
         {
-            if (_cohereStepDefinitions._client != null)
+            if (_client != null)
             {
-                _chatResponse = await _cohereStepDefinitions._client.ChatAsync(SampleChatRequests.GetChatRequest(invalidCase));
+                _chatResponse = await _client.ChatAsync(SampleChatRequests.GetChatRequest(invalidCase));
             }
             else
             {
@@ -92,11 +80,11 @@ public class ChatStepDefinitions
     /// <summary>
     /// Verifies that an error response is received from the Cohere API
     /// </summary>
-    [Then(@"I should receive an error response")]
-    public void ThenIShouldReceiveAnErrorResponse()
+    [Then(@"I should receive a chat error response")]
+    public void ThenIShouldReceiveAChatErrorResponse()
     {
         Assert.NotNull(_caughtException);
         Assert.IsType<CohereApiException>(_caughtException);
-        _output.WriteLine(_caughtException.ToString());
+        _output?.WriteLine(_caughtException.ToString());
     }
 }

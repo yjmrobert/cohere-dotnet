@@ -23,7 +23,7 @@ Feature: Classify
   @InvalidRequests
   Scenario Outline: Send an invalid classify request with incorrect settings
     When I send an invalid classify request with "<InvalidCase>"
-    Then I should receive an error response
+    Then I should receive a classify error response
 
     Examples:
       | InvalidCase                       |
