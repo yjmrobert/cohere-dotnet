@@ -10,7 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FastBertTokenizer" Version="1.0.28" />
+		<PackageReference Include="FastBertTokenizer" Version="1.0.28" />
 		<PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.18.0" />
 		<PackageReference Include="Microsoft.ML.OnnxTransformer" Version="3.0.1" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />

@@ -26,6 +26,7 @@ public partial class CohereStepDefinitions
     [Given(@"I have a valid API key")]
     public static void GivenIHaveAValidApiKey()
     {
+        Configuration.Initialize();
         Assert.NotNull(Configuration.ApiKey);
     }
 

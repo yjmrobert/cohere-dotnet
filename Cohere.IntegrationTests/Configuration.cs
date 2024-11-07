@@ -7,9 +7,12 @@ namespace Cohere.IntegrationTests;
 /// </summary>
 public static class Configuration
 {
-    private static readonly IConfiguration _configuration;
+    private static IConfiguration? _configuration;
 
-    static Configuration()
+    /// <summary>
+    /// Initializes the configuration settings by loading from a JSON file
+    /// </summary>
+    public static void Initialize()
     {
         _configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
@@ -17,6 +20,9 @@ public static class Configuration
             .Build();
     }
 
-    public static string ApiKey => _configuration.GetValue<string>("Cohere:ApiKey") 
+    /// <summary>
+    /// Gets the API key from the configuration file
+    /// </summary>
+    public static string ApiKey => _configuration?.GetValue<string>("Cohere:ApiKey") 
         ?? throw new InvalidOperationException("API key is not configured.");
 }
