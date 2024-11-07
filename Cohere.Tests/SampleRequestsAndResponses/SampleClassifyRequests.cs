@@ -1,6 +1,6 @@
 using Cohere.Types.Classify;
 
-namespace Cohere.SampleRequestsAndResponses;
+namespace Cohere.Tests.SampleRequestsAndResponses;
 
 /// <summary>
 /// Examples of valid and invalid classify requests to the Cohere API

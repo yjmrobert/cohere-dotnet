@@ -1,4 +1,4 @@
-namespace Cohere.SampleRequestsAndResponses;
+namespace Cohere.Tests.SampleRequestsAndResponses;
 
 /// <summary>
 /// Examples of valid and invalid rerank responses from the Cohere API

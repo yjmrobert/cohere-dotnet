@@ -30,6 +30,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Cohere\Cohere.csproj" />
+        <ProjectReference Include="..\Cohere.Tests\Cohere.Tests.csproj" />
     </ItemGroup>
 
     <ItemGroup>

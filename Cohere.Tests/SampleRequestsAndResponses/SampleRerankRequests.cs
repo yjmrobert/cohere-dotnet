@@ -1,6 +1,6 @@
 using Cohere.Types.Rerank;
 
-namespace Cohere.SampleRequestsAndResponses;
+namespace Cohere.Tests.SampleRequestsAndResponses;
 
 /// <summary>
 /// Examples of valid and invalid rerank requests to the Cohere API

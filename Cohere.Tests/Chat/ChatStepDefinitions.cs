@@ -1,6 +1,6 @@
 using Cohere.Types.Chat;
 using Cohere.Types.Shared;
-using Cohere.SampleRequestsAndResponses;
+using Cohere.Tests.SampleRequestsAndResponses;
 using Reqnroll;
 using Xunit;
 using System.Net;
