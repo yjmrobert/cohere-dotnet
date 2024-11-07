@@ -38,7 +38,7 @@ Install-Package CohereDotnet
 
 - **Chat Endpoint**:
 
-    Use the ```Chat``` endpoint to generate conversational text by sending a series of messages. The [ChatRequest](./Cohere/Types/ChatRequest.cs) object allows you to customize settings for tailored responses.
+    Use the ```Chat``` endpoint to generate conversational text by sending a series of messages. The [ChatRequest](./Cohere/Types/Chat/ChatRequest.cs) object allows you to customize settings for tailored responses.
 
     ```csharp
     using Cohere;
@@ -61,7 +61,7 @@ Install-Package CohereDotnet
 
 - **Classify Endpoint**:
 
-    Classify text inputs into specified labels using the ```Classify``` endpoint. The [ClassifyRequest](./Cohere/Types/ClassifyRequest.cs) object allows you to customize settings for tailored responses.
+    Classify text inputs into specified labels using the ```Classify``` endpoint. The [ClassifyRequest](./Cohere/Types/Classify/ClassifyRequest.cs) object allows you to customize settings for tailored responses.
 
     ```csharp
     var response = await cohereClient.ClassifyAsync(new ClassifyRequest
@@ -86,7 +86,7 @@ Install-Package CohereDotnet
 
 - **Rerank Endpoint**:
 
-    Use the ```Rerank``` endpoint to arrange a list of documents based on relevance to a given query. The [RerankRequest](./Cohere/Types/RerankRequest.cs) object allows you to customize settings for tailored responses.
+    Use the ```Rerank``` endpoint to arrange a list of documents based on relevance to a given query. The [RerankRequest](./Cohere/Types/Rerank/RerankRequest.cs) object allows you to customize settings for tailored responses.
 
     ```csharp
     var response = await cohereClient.RerankAsync(new RerankRequest
