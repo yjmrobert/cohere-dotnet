@@ -47,7 +47,7 @@ jobs:
     # Set the version in the csproj file based on the extracted version number
     - name: Set version in csproj
       run: |
-        $csprojPath = "../../Cohere/Cohere.csproj"
+        $csprojPath = "../Cohere/Cohere.csproj"
         (Get-Content $csprojPath) -replace '<VersionPrefix>.*</VersionPrefix>', "<VersionPrefix>${{ env.VersionNumber }}</VersionPrefix>" | Set-Content $csprojPath
 
     # Build the project in Release configuration
