@@ -6,6 +6,12 @@
 - Classify
 - Rerank
 
+## Latest Builds
+
+|                  | Stable                                                                                                                        | Build status                                                                                                                                                                                                                     |
+|------------------|-------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Cohere .NET      | [![NuGet Version](https://img.shields.io/nuget/v/Cohere.NET.svg?logo=nuget)](https://www.nuget.org/packages/Cohere.NET)       | [![publish](https://github.com/apption-oscode/cohere-dotnet/actions/workflows/main.yml/badge.svg)](https://github.com/apption-oscode/cohere-dotnet/actions/workflows/main.yml)                                                   |
+
 ## Installation
 
 You can install the SDK via NuGet:
