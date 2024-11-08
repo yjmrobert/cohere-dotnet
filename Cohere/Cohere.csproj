@@ -7,7 +7,7 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageId>Cohere.NET</PackageId>
-        <VersionPrefix>1.0.0</VersionPrefix>
+        <VersionPrefix>0.9-beta1</VersionPrefix>
         <Authors>Apption</Authors>
         <Company>Apption</Company>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
