@@ -31,12 +31,12 @@ jobs:
         fetch-depth: 0 # Get all history to allow automatic versioning using MinVer
 
     - name: Extract version from branch name
-      if: startsWith(github.ref_name, 'release/')
+      if: startsWith(github.ref_name, 'release/v')
       id: extract_version
       run: |
-        # Get version from the branch name, e.g., release/0.9-beta1
+        # Get version from the branch name, e.g., release/v0.9-beta1
         $branchName = '${{ github.ref_name }}'
-        $version = $branchName -replace 'release/', ''
+        $version = $branchName -replace 'release/v', ''
         Write-Output "Version: $version"
         echo "VersionNumber=$version" >> $env:GITHUB_ENV
 
@@ -98,7 +98,7 @@ jobs:
       run: dotnet test --configuration Release
 
   deploy:
-    if: startsWith(github.ref, 'refs/heads/release/')  # Check if the branch is a release branch
+    if: startsWith(github.ref, 'refs/heads/release/v')  # Check if the branch is a release branch
     runs-on: ubuntu-latest
     needs: [validate_nuget, run_test]
     steps:
