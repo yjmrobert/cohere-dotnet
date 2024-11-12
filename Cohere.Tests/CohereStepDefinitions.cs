@@ -17,6 +17,11 @@ public partial class CohereStepDefinitions
     private readonly string _apiKey = "test-api-key";
     private Exception? _caughtException;
     
+    public CohereStepDefinitions(ITestOutputHelper output)
+    {
+        _output = output;
+    }
+    
     /// <summary>
     /// Verifies that an API key is available for testing
     /// Since no call to the API is made, the API key is not validated

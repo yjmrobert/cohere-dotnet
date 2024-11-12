@@ -5,7 +5,7 @@ on:
   workflow_dispatch: # Allow running the workflow manually from the GitHub UI
   push:
     branches:
-      - 'main'       # Run the workflow when pushing to the main branch
+      - 'release/*'  # Run the workflow when pushing to release branches like release/{VersionNumber}
   pull_request:
     branches:
       - '*'          # Run the workflow for all pull requests
@@ -30,11 +30,27 @@ jobs:
       with:
         fetch-depth: 0 # Get all history to allow automatic versioning using MinVer
 
+    - name: Extract version from branch name
+      if: startsWith(github.ref_name, 'release/')
+      id: extract_version
+      run: |
+        # Get version from the branch name, e.g., release/v0.9-beta1
+        $branchName = '${{ github.ref_name }}'
+        $version = $branchName -replace 'release/', ''
+        Write-Output "Version: $version"
+        echo "VersionNumber=$version" >> $env:GITHUB_ENV
+
     # Install the .NET SDK indicated in the global.json file
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
 
-    # Create the NuGet package in the folder from the environment variable NuGetDirectory
+    # Set the version in the csproj file based on the extracted version number
+    - name: Set version in csproj
+      run: |
+        $csprojPath = "Cohere/Cohere.csproj"
+        (Get-Content $csprojPath) -replace '<VersionPrefix>.*</VersionPrefix>', "<VersionPrefix>${{ env.VersionNumber }}</VersionPrefix>" | Set-Content $csprojPath
+
+    # Build the project in Release configuration
     - run: dotnet build --configuration Release
 
     # Create the NuGet package in the folder from the environment variable NuGetDirectory
