@@ -34,3 +34,8 @@ Feature: Classify Integration
       | SingleLabelOnly                   |
       | EmptyExamples                     |
       | HighVolume                        |
+
+  @CanceledRequest
+  Scenario: Cancel a classify request before it completes
+    When I send a valid classify request and cancel it immediately
+    Then the classify request should be canceled, and an OperationCanceledException should be raised

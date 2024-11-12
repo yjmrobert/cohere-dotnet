@@ -31,3 +31,8 @@ Feature: Rerank Integration
       | NullValues              |
       | EmptyQuery              |
       | NoDocumentsProvided     |
+
+  @CanceledRequest
+  Scenario: Cancel a rerank request before it completes
+    When I send a valid rerank request and cancel it immediately
+    Then the rerank request should be canceled, and an OperationCanceledException should be raised

@@ -188,6 +188,40 @@ namespace Cohere.IntegrationTests.Classify
             await this.ScenarioCleanupAsync();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="Cancel a classify request before it completes")]
+        [Xunit.TraitAttribute("FeatureTitle", "Classify Integration")]
+        [Xunit.TraitAttribute("Description", "Cancel a classify request before it completes")]
+        [Xunit.TraitAttribute("Category", "CanceledRequest")]
+        public async System.Threading.Tasks.Task CancelAClassifyRequestBeforeItCompletes()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "CanceledRequest"};
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Cancel a classify request before it completes", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 39
+  this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 7
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 40
+    await testRunner.WhenAsync("I send a valid classify request and cancel it immediately", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 41
+    await testRunner.ThenAsync("the classify request should be canceled, and an OperationCanceledException should" +
+                        " be raised", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : object, Xunit.IAsyncLifetime

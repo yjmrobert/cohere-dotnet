@@ -100,4 +100,40 @@ public partial class CohereStepDefinitions
         Assert.IsType<CohereApiException>(_caughtException);
         _output?.WriteLine(_caughtException.ToString());
     }
+
+    /// <summary>
+    /// Sends a valid classify request and cancels it immediately
+    /// </summary>
+    [When("I send a valid classify request and cancel it immediately")]
+    public async Task WhenISendAValidClassifyRequestAndCancelItImmediately()
+    {
+        using var cancellationTokenSource = new CancellationTokenSource();
+        cancellationTokenSource.Cancel();
+
+        try
+        {
+            if (_client != null)
+            {
+                _classifyResponse = await _client.ClassifyAsync(SampleClassifyRequests.BasicValidRequest, cancellationTokenSource.Token);
+            }
+            else
+            {
+                throw new InvalidOperationException("Client is not initialized.");
+            }
+        }
+        catch (OperationCanceledException ex)
+        {
+            _caughtException = ex;
+        }
+    }
+
+    /// <summary>
+    /// Verifies that the classify request is canceled, and an OperationCanceledException is raised
+    /// </summary>
+    [Then("the classify request should be canceled, and an OperationCanceledException should be raised")]
+    public void ThenTheClassifyRequestShouldBeCanceledAndAnOperationCanceledExceptionShouldBeRaised()
+    {
+        Assert.NotNull(_caughtException);
+        Assert.IsType<OperationCanceledException>(_caughtException);
+    }
 }
