@@ -5,7 +5,7 @@ on:
   workflow_dispatch: # Allow running the workflow manually from the GitHub UI
   push:
     branches:
-      - 'release/*'  # Run the workflow when pushing to release branches like release/{VersionNumber}
+      - 'main'       # Run the workflow when pushing to the main branch
   pull_request:
     branches:
       - '*'          # Run the workflow for all pull requests
@@ -16,7 +16,7 @@ on:
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
   DOTNET_NOLOGO: true
-  NuGetDirectory: ${{ github.workspace}}/nuget
+  NuGetDirectory: ${{ github.workspace }}/nuget
 
 defaults:
   run:
@@ -30,15 +30,15 @@ jobs:
       with:
         fetch-depth: 0 # Get all history to allow automatic versioning using MinVer
 
-    - name: Extract version from branch name
-      if: startsWith(github.ref_name, 'release/v')
-      id: extract_version
-      run: |
-        # Get version from the branch name, e.g., release/v0.9-beta1
-        $branchName = '${{ github.ref_name }}'
-        $version = $branchName -replace 'release/v', ''
-        Write-Output "Version: $version"
-        echo "VersionNumber=$version" >> $env:GITHUB_ENV
+      - name: Extract version from tag name
+        if: startsWith(github.event.release.tag_name, 'release/v')
+        id: extract_version
+        run: |
+          # Get version from the tag name, e.g., release/v0.9.0-beta1
+          $tagName = '${{ github.event.release.tag_name }}'
+          $version = $tagName -replace 'release/v', ''
+          Write-Output "Version: $version"
+          echo "VersionNumber=$version" >> $env:GITHUB_ENV
 
     # Install the .NET SDK indicated in the global.json file
     - name: Setup .NET
@@ -66,7 +66,7 @@ jobs:
 
   validate_nuget:
     runs-on: ubuntu-latest
-    needs: [ create_nuget ]
+    needs: [create_nuget]
     steps:
       # Install the .NET SDK indicated in the global.json file
       - name: Setup .NET
@@ -98,7 +98,8 @@ jobs:
       run: dotnet test --configuration Release
 
   deploy:
-    if: startsWith(github.ref, 'refs/heads/release/v')  # Check if the branch is a release branch
+    # Only run for release events with a tag that starts with "release/v"
+    if: github.event_name == 'release' && startsWith(github.event.release.tag_name, 'release/v')
     runs-on: ubuntu-latest
     needs: [validate_nuget, run_test]
     steps:
