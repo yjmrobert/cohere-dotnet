@@ -34,7 +34,7 @@ jobs:
       if: startsWith(github.ref_name, 'release/')
       id: extract_version
       run: |
-        # Get version from the branch name, e.g., release/v0.9-beta1
+        # Get version from the branch name, e.g., release/0.9-beta1
         $branchName = '${{ github.ref_name }}'
         $version = $branchName -replace 'release/', ''
         Write-Output "Version: $version"
