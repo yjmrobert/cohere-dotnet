@@ -78,4 +78,40 @@ public partial class CohereStepDefinitions
         Assert.IsType<CohereApiException>(_caughtException);
         _output?.WriteLine(_caughtException.ToString());
     }
+
+    /// <summary>
+    /// Sends a valid rerank request and cancels it immediately
+    /// </summary>
+    [When("I send a valid rerank request and cancel it immediately")]
+    public async Task WhenISendAValidRerankRequestAndCancelItImmediately()
+    {
+        using var cancellationTokenSource = new CancellationTokenSource();
+        cancellationTokenSource.Cancel();
+
+        try
+        {
+            if (_client != null)
+            {
+                _rerankResponse = await _client.RerankAsync(SampleRerankRequests.BasicValidRequest, cancellationTokenSource.Token);
+            }
+            else
+            {
+                throw new InvalidOperationException("Client is not initialized.");
+            }
+        }
+        catch (OperationCanceledException ex)
+        {
+            _caughtException = ex;
+        }
+    }
+
+    /// <summary>
+    /// Verifies that the rerank request is canceled, and an OperationCanceledException is raised
+    /// </summary>
+    [Then("the rerank request should be canceled, and an OperationCanceledException should be raised")]
+    public void ThenTheRerankRequestShouldBeCanceledAndAnOperationCanceledExceptionShouldBeRaised()
+    {
+        Assert.NotNull(_caughtException);
+        Assert.IsType<OperationCanceledException>(_caughtException);
+    }
 }

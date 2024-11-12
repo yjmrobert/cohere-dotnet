@@ -34,4 +34,9 @@ Feature: Chat Integration
       | InvalidSafetyMode           |
       | ExceedStopSequencesLimit    |
       | MissingRequiredFields       |
+
+  @CanceledRequest
+  Scenario: Cancel a chat request before it completes
+    When I send a valid chat request and cancel it immediately
+    Then the chat request should be canceled, and an OperationCanceledException should be raised
       

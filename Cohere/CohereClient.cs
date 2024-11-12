@@ -53,12 +53,13 @@ public class CohereClient: IDisposable
     /// Sends a request to the Cohere API to generate text based on messages provided
     /// </summary>
     /// <param name="chatRequest"> The request body sent to Cohere to generate text </param>
+    /// <param name="cancellationToken"> The cancellation token to cancel the request </param>
     /// <returns> The response from Cohere as a ChatResponse object </returns>
-    public async Task<ChatResponse> ChatAsync(ChatRequest chatRequest)
+    public async Task<ChatResponse> ChatAsync(ChatRequest chatRequest, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(chatRequest);
 
-        var response = await SendRequestAsync(CohereEndpointsEnum.Chat, chatRequest);
+        var response = await SendRequestAsync(CohereEndpointsEnum.Chat, chatRequest, cancellationToken);
 
         return (ChatResponse) response;
     }
@@ -67,12 +68,13 @@ public class CohereClient: IDisposable
     /// Sends a request to the Cohere API to classify text
     /// </summary>
     /// <param name="classifyRequest"> The request body sent to Cohere to classify </param>
+    /// <param name="cancellationToken"> The cancellation token to cancel the request </param>
     /// <returns> The response from Cohere as a ClassifyResponse object </returns>
-    public async Task<ClassifyResponse> ClassifyAsync(ClassifyRequest classifyRequest)
+    public async Task<ClassifyResponse> ClassifyAsync(ClassifyRequest classifyRequest, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(classifyRequest);
 
-        var response = await SendRequestAsync(CohereEndpointsEnum.Classify, classifyRequest);
+        var response = await SendRequestAsync(CohereEndpointsEnum.Classify, classifyRequest, cancellationToken);
 
         return (ClassifyResponse) response;
     }
@@ -81,12 +83,13 @@ public class CohereClient: IDisposable
     /// Sends a request to the Cohere API to rerank text
     /// </summary>
     /// <param name="rerankRequest"> The request body sent to Cohere to rerank </param>
+    /// <param name="cancellationToken"> The cancellation token to cancel the request </param>
     /// <returns> The response from Cohere as a RerankResponse object </returns>
-    public async Task<RerankResponse> RerankAsync(RerankRequest rerankRequest)
+    public async Task<RerankResponse> RerankAsync(RerankRequest rerankRequest, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(rerankRequest);
 
-        var response = await SendRequestAsync(CohereEndpointsEnum.Rerank, rerankRequest);
+        var response = await SendRequestAsync(CohereEndpointsEnum.Rerank, rerankRequest, cancellationToken);
 
         return (RerankResponse) response;
     }
@@ -96,8 +99,9 @@ public class CohereClient: IDisposable
     /// </summary>
     /// <param name="endpoint"> The endpoint to send the request to </param>
     /// <param name="requestBody"> The request body to send to the API </param>
+    /// <param name="cancellationToken"> The cancellation token to cancel the request </param>
     /// <returns> The response from the API as an ICohereResponse object </returns> 
-    private async Task<ICohereResponse> SendRequestAsync(CohereEndpointsEnum endpoint, ICohereRequest requestBody)
+    private async Task<ICohereResponse> SendRequestAsync(CohereEndpointsEnum endpoint, ICohereRequest requestBody, CancellationToken cancellationToken)
     {
         var serializedRequest = endpoint switch
         {
@@ -107,17 +111,17 @@ public class CohereClient: IDisposable
             _ => throw new InvalidOperationException("Invalid endpoint provided."),
         };
 
-        var response = await GetRetryPolicy().ExecuteAsync(async () => {
+        var response = await GetRetryPolicy().ExecuteAsync(async ct =>
+        {
             var request = new HttpRequestMessage(HttpMethod.Post, $"https://api.cohere.ai/v2/{endpoint.ToString().ToLower()}")
-
             {
                 Content = new StringContent(serializedRequest, Encoding.UTF8, new MediaTypeHeaderValue("application/json"))
             };
+            return await _httpClient.SendAsync(request, ct);
+            
+        }, cancellationToken);
 
-            return await _httpClient.SendAsync(request);
-        });
-
-        var responseContent = await response.Content.ReadAsStringAsync();
+        var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
 
         if (!response.IsSuccessStatusCode)
         {

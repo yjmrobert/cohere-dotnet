@@ -34,7 +34,6 @@ Install-Package CohereDotnet
 
     ```csharp
     using Cohere;
-    using Cohere.Models;
 
     var apiKey = "your-api-key";
     var cohereClient = new CohereClient(apiKey);
@@ -48,7 +47,7 @@ Install-Package CohereDotnet
 
     ```csharp
     using Cohere;
-    using Cohere.Types;
+    using Cohere.Types.Chat;
 
     var response = await cohereClient.ChatAsync(new ChatRequest
     {
@@ -70,6 +69,9 @@ Install-Package CohereDotnet
     Classify text inputs into specified labels using the ```Classify``` endpoint. The [ClassifyRequest](./Cohere/Types/Classify/ClassifyRequest.cs) object allows you to customize settings for tailored responses.
 
     ```csharp
+    using Cohere;
+    using Cohere.Types.Classify;
+
     var response = await cohereClient.ClassifyAsync(new ClassifyRequest
     {
         Examples =
@@ -95,6 +97,9 @@ Install-Package CohereDotnet
     Use the ```Rerank``` endpoint to arrange a list of documents based on relevance to a given query. The [RerankRequest](./Cohere/Types/Rerank/RerankRequest.cs) object allows you to customize settings for tailored responses.
 
     ```csharp
+    using Cohere;
+    using Cohere.Types.Rerank;
+
     var response = await cohereClient.RerankAsync(new RerankRequest
     {
         Query = "What is the capital of the United States?"
