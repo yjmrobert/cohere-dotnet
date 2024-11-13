@@ -27,11 +27,6 @@
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageIcon>Images\Icon.png</PackageIcon>
     </PropertyGroup>
-
-    <ItemGroup>
-        <!-- Required if your repository is on GitHub -->
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.*" PrivateAssets="All"/>
-    </ItemGroup>
     
     <ItemGroup>
       <Folder Include="Types\" />
